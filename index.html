@@ -809,29 +809,33 @@
     </footer>
 
     <script>
-        function submitWaitlist() {
-            var email = document.getElementById('waitlistEmail').value;
-            if (!email || !email.includes('@')) {
-                alert('Please enter a valid work email.');
-                return;
-            }
-            // For now, store in localStorage until backend is ready
-            var waitlist = JSON.parse(localStorage.getItem('ditm_waitlist') || '[]');
-            waitlist.push({ email: email, timestamp: new Date().toISOString() });
-            localStorage.setItem('ditm_waitlist', JSON.stringify(waitlist));
+const GOOGLE_FORM_URL =
+"https://docs.google.com/forms/d/e/1FAIpQLSf2zTUAkMkWUp2mbMCGs9XWNKPJWYQ1MD3UiHgxKwB51rGG3w/formResponse";
 
-            document.getElementById('waitlistForm').style.display = 'none';
-            document.getElementById('waitlistSuccess').style.display = 'block';
-        }
+// replace this once we get the field id
+const EMAIL_ENTRY_ID = "entry.XXXXXXXXXX";
 
-        // Smooth scroll for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                var target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-    </script>
+async function submitWaitlist() {
+    const emailInput = document.getElementById("waitlistEmail");
+    const email = emailInput.value.trim();
+
+    if (!email || !email.includes("@")) {
+        alert("Please enter a valid email.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append(EMAIL_ENTRY_ID, email);
+
+    await fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+    });
+
+    document.getElementById("waitlistForm").style.display = "none";
+    document.getElementById("waitlistSuccess").style.display = "block";
+}
+</script>
 </body>
 </html>
