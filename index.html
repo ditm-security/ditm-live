@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DiTM — Detection in the Middle</title>
-    <meta name="description" content="Browser-native threat detection. Stop ClickFix, AitM phishing, and browser-based attacks before they execute.">
+    <meta name="description" content="Browser-native threat detection. Stop ClickFix, credential phishing, AitM attacks, and browser-based social engineering before they execute.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -106,7 +106,7 @@
             height: 32px;
             position: relative;
         }
-        .nav-logo-hex svg { width: ; height: 100%; }
+        .nav-logo-hex svg { width: 100%; height: 100%; }
         .nav-logo-text {
             font-family: var(--mono);
             font-weight: 700;
@@ -207,7 +207,7 @@
         }
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 32px;
         }
         .stat { text-align: center; }
@@ -302,7 +302,7 @@
             color: var(--text-mid);
             font-size: 15px;
             margin-bottom: 28px;
-            max-width: 520px;
+            max-width: 580px;
         }
 
         .feature-grid {
@@ -566,7 +566,7 @@
                 <div class="hero-tag">Detection in the Middle</div>
                 <h1>Browser attacks end <span>before they start.</span></h1>
                 <p class="hero-sub">
-                    Modern attacks happen inside the browser — ClickFix lures, AitM phishing proxies, credential hijacking. Traditional security tools are blind to them. DiTM detects the attack at its source.
+                    Modern attacks happen inside the browser — ClickFix lures, credential phishing, AitM proxies, brand impersonation. Traditional security tools are blind to them. DiTM detects the attack at its source.
                 </p>
                 <div class="hero-buttons">
                     <a href="#clickarmor" class="btn btn-primary">Get ClickArmor (Free)</a>
@@ -577,21 +577,21 @@
     </section>
 
     <!-- Vision -->
-<section>
-    <div class="container">
-        <div class="section-tag">Vision</div>
-        <div class="section-title">Making Browser-Based Social Engineering Obsolete</div>
-        <p class="section-desc">
-            Attackers increasingly exploit the browser itself — phishing proxies, fake verification flows,
-            clipboard hijacks, and other social engineering techniques that bypass traditional defenses.
-        </p>
-        <p class="section-desc">
-            DiTM exists to eliminate this entire class of attacks by detecting them directly where they occur:
-            inside the browser. Our long-term goal is to protect every user connected to the internet and make
-            browser-based social engineering unfathomable for attackers.
-        </p>
-    </div>
-</section>
+    <section>
+        <div class="container">
+            <div class="section-tag">Vision</div>
+            <div class="section-title">Making Browser-Based Social Engineering Obsolete</div>
+            <p class="section-desc">
+                Attackers increasingly exploit the browser itself — phishing proxies, fake verification flows,
+                clipboard hijacks, credential harvesting, and other social engineering techniques that bypass traditional defenses.
+            </p>
+            <p class="section-desc">
+                DiTM exists to eliminate this entire class of attacks by detecting them directly where they occur:
+                inside the browser. Our long-term goal is to protect every user connected to the internet and make
+                browser-based social engineering unfathomable for attackers.
+            </p>
+        </div>
+    </section>
 
     <!-- Stats -->
     <div class="stats-bar">
@@ -602,12 +602,12 @@
                     <div class="stat-label">ClickFix Domains Covered</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">5,000+</div>
-                    <div class="stat-label">ClickFix Active Lures Detected</div>
+                    <div class="stat-num">25,000+</div>
+                    <div class="stat-label">Phishing URLs Validated</div>
                 </div>
                 <div class="stat">
-                <div class="stat-num">0</div>
-                <div class="stat-label">Misses Observed in Active Testing</div>
+                    <div class="stat-num">100+</div>
+                    <div class="stat-label">Impersonated Brands Covered</div>
                 </div>
                 <div class="stat">
                     <div class="stat-num">0</div>
@@ -622,10 +622,10 @@
         <div class="container">
             <div class="section-tag">Free Product</div>
             <div class="product-card">
-                <div class="product-badge">Live on Chrome + Firefox</div>
+                <div class="product-badge">Live on Chrome, Firefox, Brave, Edge & Opera</div>
                 <div class="product-name">ClickArmor</div>
                 <p class="product-sub">
-                    Browser extension that detects and blocks ClickFix-style social engineering attacks before malicious commands are executed. Runs entirely on-device.
+                    Browser extension that detects and blocks ClickFix attacks and credential phishing in real time — before malicious commands execute or credentials are stolen. Runs entirely on-device.
                 </p>
 
                 <div class="feature-grid">
@@ -640,6 +640,16 @@
                         <div class="feature-desc">Monitors clipboard writes and blocks malicious PowerShell, mshta, and encoded command payloads before the user can paste them.</div>
                     </div>
                     <div class="feature-item">
+                        <div class="feature-icon">🏦</div>
+                        <div class="feature-title">Brand Impersonation Detection</div>
+                        <div class="feature-desc">Detects login pages impersonating Microsoft, Google, Apple, Amazon, PayPal, Chase, Bank of America, Wells Fargo, Meta, and 100+ other brands on domains that don't belong to them.</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📝</div>
+                        <div class="feature-title">Form Analysis</div>
+                        <div class="feature-desc">Scans for credential harvesting forms on unofficial domains, including phishing hosted on Google Docs, Google Sites, SharePoint, and other legitimate platforms.</div>
+                    </div>
+                    <div class="feature-item">
                         <div class="feature-icon">🔒</div>
                         <div class="feature-title">100% On-Device</div>
                         <div class="feature-desc">No telemetry. No API calls. No cloud lookups. No data collection. All detection runs locally in your browser.</div>
@@ -647,7 +657,7 @@
                     <div class="feature-item">
                         <div class="feature-icon">🔬</div>
                         <div class="feature-title">Research-Validated</div>
-                        <div class="feature-desc">Tested and Validated against 6,000+ domains and real active lure pages from ThreatFox feed and independently sourced ClickFix campaigns.</div>
+                        <div class="feature-desc">Tested against 6,000+ ClickFix domains from ThreatFox and 25,000+ live phishing URLs from PhishTank. Continuously validated against active threat infrastructure.</div>
                     </div>
                 </div>
 
@@ -663,7 +673,7 @@
     <section>
         <div class="container">
             <div class="section-tag">How It Works</div>
-            <div class="section-title">8 Detection Layers</div>
+            <div class="section-title">10 Detection Layers</div>
             <p class="section-desc">
                 ClickArmor analyzes pages in real time using multiple behavioral detection layers. No blocklists. Pattern and behavior-aware detection that catches new variants.
             </p>
@@ -724,6 +734,20 @@
                         <div class="layer-desc">Regex engine scoring PowerShell, mshta, curl, certutil, bitsadmin, nslookup DNS staging, and encoded command patterns.</div>
                     </div>
                 </div>
+                <div class="layer-item">
+                    <div class="layer-num">09</div>
+                    <div>
+                        <div class="layer-title">Brand Impersonation Detection</div>
+                        <div class="layer-desc">Identifies pages impersonating 100+ trusted brands — Microsoft, Google, Apple, Amazon, PayPal, Chase, Bank of America, Wells Fargo, Meta — on domains that don't belong to them.</div>
+                    </div>
+                </div>
+                <div class="layer-item">
+                    <div class="layer-num">10</div>
+                    <div>
+                        <div class="layer-title">Platform Abuse Detection</div>
+                        <div class="layer-desc">Catches credential phishing hosted on Google Docs, Google Sites, Google Drawings, SharePoint, and OneDrive — detects cross-brand impersonation on legitimate hosting platforms.</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -736,7 +760,7 @@
                 <div class="coming-badge">Coming Soon</div>
                 <div class="product-name">DiTM Enterprise</div>
                 <p class="product-sub">
-                    Browser-native threat detection platform. ClickFix is just the beginning — DiTM expands detection to cover the full spectrum of browser-based attacks targeting enterprise identity and access.
+                    Browser-native threat detection platform. ClickFix and credential phishing are just the beginning — DiTM expands detection to cover the full spectrum of browser-based attacks targeting enterprise identity and access.
                 </p>
 
                 <div class="enterprise-features">
@@ -773,25 +797,33 @@
             <div class="section-title">Research-Driven Detection</div>
             <p class="section-desc">
                 Every detection rule is validated against real attack infrastructure, not synthetic samples.
-                <section>
-    <div class="container">
-        <div class="research-card">
-            <div class="section-tag">Continuous Validation Cycles</div>
-            <p class="section-desc" style="margin-bottom: 0; max-width: 100%;">
-                ClickArmor is re-validated against freshly reported active threat infrastructure on a roughly <strong>10 day cadence</strong> to check for bypasses, missed variants, and detection gaps.
             </p>
-        </div>
-    </div>
-    </section>
-            </p>
+            <section>
+                <div class="container">
+                    <div class="research-card">
+                        <div class="section-tag">Continuous Validation Cycles</div>
+                        <p class="section-desc" style="margin-bottom: 0; max-width: 100%;">
+                            ClickArmor is re-validated against freshly reported active threat infrastructure on a roughly <strong>10 day cadence</strong> to check for bypasses, missed variants, and detection gaps.
+                        </p>
+                    </div>
+                </div>
+            </section>
             <div class="research-grid">
                 <div class="research-card">
                     <div class="research-stat">6,000+</div>
-                    <div class="research-label">ClickFix domains extracted from abuse.ch ThreatFox IOC feed </div>
+                    <div class="research-label">ClickFix domains extracted from abuse.ch ThreatFox IOC feed</div>
                 </div>
                 <div class="research-card">
                     <div class="research-stat">5,000+</div>
-                    <div class="research-label">Active lure pages tested in a real browser with ClickArmor loaded via automated Puppeteer pipeline</div>
+                    <div class="research-label">Active ClickFix lure pages tested in a real browser with ClickArmor loaded via automated Puppeteer pipeline</div>
+                </div>
+                <div class="research-card">
+                    <div class="research-stat">25,000+</div>
+                    <div class="research-label">Live phishing URLs from PhishTank validated against ClickArmor's brand impersonation and form detection</div>
+                </div>
+                <div class="research-card">
+                    <div class="research-stat">100+</div>
+                    <div class="research-label">Impersonated brands covered including Microsoft, Google, Apple, Amazon, PayPal, Chase, Bank of America, Wells Fargo, and Meta</div>
                 </div>
                 <div class="research-card">
                     <div class="research-stat">5,000+</div>
@@ -822,7 +854,6 @@
 const GOOGLE_FORM_URL =
 "https://docs.google.com/forms/d/e/1FAIpQLSf2zTUAkMkWUp2mbMCGs9XWNKPJWYQ1MD3UiHgxKwB51rGG3w/formResponse";
 
-// replace this once we get the field id
 const EMAIL_ENTRY_ID = "entry.138807037";
 
 async function submitWaitlist() {
