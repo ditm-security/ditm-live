@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiTM Security</title>
+    <title>DiTM — Detection in the Middle</title>
     <meta name="description" content="Browser-native threat detection. Stop ClickFix, credential phishing, AitM attacks, and browser-based social engineering before they execute.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,19 +12,19 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #eef3f7;
-            --surface: #fbfdff;
-            --surface-2: #f3f7fb;
-            --border: #d6e0ea;
-            --border-glow: #496b8e;
-            --safe: #4a826f;
-            --warn: #b28a49;
-            --danger: #a85f72;
-            --accent: #496b8e;
-            --accent-dim: rgba(73, 107, 142, 0.10);
-            --text: #182631;
-            --text-dim: #748290;
-            --text-mid: #627487;
+            --bg: #06060b;
+            --surface: #0c0c14;
+            --surface-2: #12121e;
+            --border: #1a1a2e;
+            --border-glow: #ff3366;
+            --safe: #00ff88;
+            --warn: #ffaa00;
+            --danger: #ff3366;
+            --accent: #ff3366;
+            --accent-dim: rgba(255, 51, 102, 0.12);
+            --text: #e8e8f0;
+            --text-dim: #6a6a88;
+            --text-mid: #9a9ab0;
             --mono: 'JetBrains Mono', monospace;
             --sans: 'Outfit', sans-serif;
         }
@@ -50,8 +50,8 @@
                 0deg,
                 transparent,
                 transparent 2px,
-                rgba(24,38,49,0.025) 2px,
-                rgba(24,38,49,0.025) 4px
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
             );
         }
 
@@ -61,8 +61,8 @@
             inset: 0;
             z-index: 0;
             background-image:
-                linear-gradient(rgba(73,107,142,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(73,107,142,0.05) 1px, transparent 1px);
+                linear-gradient(rgba(255,51,102,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,51,102,0.03) 1px, transparent 1px);
             background-size: 60px 60px;
         }
 
@@ -81,7 +81,7 @@
             left: 0;
             right: 0;
             z-index: 100;
-            background: rgba(238,243,247,0.9);
+            background: rgba(6,6,11,0.85);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
         }
@@ -185,9 +185,9 @@
             border-color: var(--accent);
         }
         .btn-primary:hover {
-            background: #3f5f7e;
+            background: #e6294f;
             transform: translateY(-1px);
-            box-shadow: 0 8px 30px rgba(73,107,142,0.20);
+            box-shadow: 0 8px 30px rgba(255,51,102,0.25);
         }
         .btn-secondary {
             background: transparent;
@@ -273,8 +273,8 @@
             align-items: center;
             gap: 6px;
             padding: 6px 14px;
-            background: rgba(74,130,111,0.10);
-            border: 1px solid rgba(74,130,111,0.20);
+            background: rgba(0,255,136,0.08);
+            border: 1px solid rgba(0,255,136,0.2);
             border-radius: 999px;
             font-family: var(--mono);
             font-size: 11px;
@@ -390,8 +390,8 @@
         .coming-badge {
             display: inline-flex;
             padding: 6px 14px;
-            background: rgba(184,131,47,0.10);
-            border: 1px solid rgba(184,131,47,0.22);
+            background: rgba(255,170,0,0.08);
+            border: 1px solid rgba(255,170,0,0.2);
             border-radius: 999px;
             font-family: var(--mono);
             font-size: 11px;
@@ -454,7 +454,7 @@
             transition: all 0.2s;
         }
         .waitlist-form button:hover {
-            background: #3f5f7e;
+            background: #e6294f;
             transform: translateY(-1px);
         }
         .form-note {
@@ -465,8 +465,8 @@
         .form-success {
             display: none;
             padding: 16px 20px;
-            background: rgba(74,130,111,0.10);
-            border: 1px solid rgba(74,130,111,0.20);
+            background: rgba(0,255,136,0.08);
+            border: 1px solid rgba(0,255,136,0.2);
             border-radius: 8px;
             font-family: var(--mono);
             font-size: 13px;
@@ -542,10 +542,10 @@
             <a href="#" class="nav-logo">
                 <div class="nav-logo-hex">
                     <svg viewBox="0 0 32 32" fill="none">
-                        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="#496b8e" stroke-width="1.5" fill="none"/>
-                        <circle cx="16" cy="16" r="3" fill="#496b8e"/>
-                        <line x1="16" y1="8" x2="16" y2="24" stroke="#496b8e" stroke-width="0.5" opacity="0.4"/>
-                        <line x1="8" y1="16" x2="24" y2="16" stroke="#496b8e" stroke-width="0.5" opacity="0.4"/>
+                        <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="#ff3366" stroke-width="1.5" fill="none"/>
+                        <circle cx="16" cy="16" r="3" fill="#ff3366"/>
+                        <line x1="16" y1="8" x2="16" y2="24" stroke="#ff3366" stroke-width="0.5" opacity="0.4"/>
+                        <line x1="8" y1="16" x2="24" y2="16" stroke="#ff3366" stroke-width="0.5" opacity="0.4"/>
                     </svg>
                 </div>
                 <span class="nav-logo-text">DiTM</span>
