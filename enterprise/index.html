@@ -622,6 +622,49 @@
       box-shadow: 0 0 0 5px rgba(48, 242, 177, 0.12);
     }
 
+    .coming-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .coming-card {
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17,18,29,0.96), rgba(10,11,19,0.96));
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .coming-card h3 {
+      font-size: 20px;
+      margin-bottom: 14px;
+      letter-spacing: -0.03em;
+    }
+
+    .coming-card ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .coming-card li {
+      position: relative;
+      padding-left: 18px;
+      color: var(--text-mid);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .coming-card li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+
     footer {
       padding: 16px 0 34px;
       color: var(--text-dim);
@@ -689,6 +732,7 @@
         </span>
       </a>
       <div class="nav-links">
+        <a href="/">Main Site</a>
         <a href="#platform">Platform</a>
         <a href="#deployment">Deployment</a>
         <a href="#coverage">Coverage</a>
@@ -979,6 +1023,47 @@
               <li>Live detections tied to enrolled browser agents</li>
               <li>Policy delivery for allowlists, blocklists, and enforcement state</li>
               <li>Clear deployment story for admins and users</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="label">Coming Next</div>
+          <h2>Planned platform features beyond the current pilot surface.</h2>
+          <p>
+            The enterprise roadmap expands past ClickFix and credential phishing into broader browser-based identity and access abuse patterns.
+          </p>
+        </div>
+        <div class="coming-grid">
+          <article class="coming-card">
+            <h3>Identity Attack Coverage</h3>
+            <ul>
+              <li>AitM phishing proxy detection</li>
+              <li>PhaaS kit fingerprinting (Tycoon 2FA, Sneaky2FA, Evilginx)</li>
+              <li>Browser-in-the-Browser (BitB) detection</li>
+              <li>OAuth / consent phishing detection</li>
+            </ul>
+          </article>
+          <article class="coming-card">
+            <h3>Trust Boundary Signals</h3>
+            <ul>
+              <li>TLS certificate trust boundary validation</li>
+              <li>Cookie domain mismatch detection</li>
+              <li>Credential submission interception</li>
+              <li>Session hijack / token replay detection</li>
+            </ul>
+          </article>
+          <article class="coming-card">
+            <h3>Enterprise Controls</h3>
+            <ul>
+              <li>Malicious extension monitoring</li>
+              <li>Org-wide management console + SIEM integration</li>
+              <li>Expanded policy and identity workflow coverage</li>
+              <li>Deeper browser-based incident visibility</li>
             </ul>
           </article>
         </div>
