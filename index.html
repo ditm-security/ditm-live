@@ -419,58 +419,36 @@
             font-family: var(--mono);
         }
 
-        /* ── WAITLIST FORM ── */
-        .waitlist-form {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            max-width: 500px;
-        }
-        .waitlist-form input {
-            flex: 1;
-            min-width: 200px;
-            padding: 14px 18px;
+        .platform-info {
+            margin-top: 28px;
+            padding: 24px;
             background: var(--surface-2);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-family: var(--sans);
+            border-radius: 12px;
+        }
+        .platform-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .platform-info-item {
             font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
+            color: var(--text-mid);
+            line-height: 1.55;
         }
-        .waitlist-form input:focus { border-color: var(--accent); }
-        .waitlist-form input::placeholder { color: var(--text-dim); }
-        .waitlist-form button {
-            padding: 14px 28px;
-            background: var(--accent);
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-family: var(--mono);
+        .platform-info-item strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 4px;
             font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
+            font-family: var(--mono);
+            text-transform: uppercase;
         }
-        .waitlist-form button:hover {
-            background: #e6294f;
-            transform: translateY(-1px);
-        }
-        .form-note {
+        .platform-note {
             font-size: 12px;
             color: var(--text-dim);
-            margin-top: 12px;
-        }
-        .form-success {
-            display: none;
-            padding: 16px 20px;
-            background: rgba(0,255,136,0.08);
-            border: 1px solid rgba(0,255,136,0.2);
-            border-radius: 8px;
-            font-family: var(--mono);
-            font-size: 13px;
-            color: var(--safe);
+            margin-top: 14px;
         }
 
         /* ── RESEARCH ── */
@@ -554,7 +532,6 @@
                 <a href="#clickarmor">ClickArmor</a>
                 <a href="#platform">Platform</a>
                 <a href="#research">Research</a>
-                <a href="#waitlist">Early Access</a>
                 <a href="/enterprise/">Enterprise</a>
             </div>
         </div>
@@ -571,7 +548,7 @@
                 </p>
                 <div class="hero-buttons">
                     <a href="#clickarmor" class="btn btn-primary">Get ClickArmor (Free)</a>
-                    <a href="#waitlist" class="btn btn-secondary">Join Enterprise Waitlist</a>
+                    <a href="/enterprise/" class="btn btn-secondary">View Enterprise Platform</a>
                 </div>
             </div>
         </div>
@@ -758,7 +735,7 @@
         <div class="container">
             <div class="section-tag">Enterprise Platform</div>
             <div class="enterprise-card">
-                <div class="coming-badge">Coming Soon</div>
+                <div class="coming-badge">Pilot Access Available</div>
                 <div class="product-name">DiTM Enterprise</div>
                 <p class="product-sub">
                     Browser-native threat detection platform. ClickFix and credential phishing are just the beginning — DiTM expands detection to cover the full spectrum of browser-based attacks targeting enterprise identity and access.
@@ -777,15 +754,30 @@
                     <div class="ent-feature">Org-wide management console + SIEM integration</div>
                 </div>
 
-                <div id="waitlist">
-                    <div class="waitlist-form" id="waitlistForm">
-                        <input type="email" id="waitlistEmail" placeholder="work@company.com" required>
-                        <button type="button" onclick="submitWaitlist()">Join Waitlist</button>
+                <div class="platform-info">
+                    <div class="platform-info-grid">
+                        <div class="platform-info-item">
+                            <strong>Armor Console</strong>
+                            Company-specific dashboard access at console.ditmsecurity.com
+                        </div>
+                        <div class="platform-info-item">
+                            <strong>Agent Deployment</strong>
+                            Lightweight browser agents for Chrome, Firefox, Brave, Edge, and Opera
+                        </div>
+                        <div class="platform-info-item">
+                            <strong>Enrollment</strong>
+                            Fast browser enrollment with a company token tied to the org
+                        </div>
+                        <div class="platform-info-item">
+                            <strong>Live Visibility</strong>
+                            Detections flow directly into the company console in real time
+                        </div>
                     </div>
-                    <p class="form-note">Early access for security teams. No spam. We'll reach out when the beta is ready.</p>
-                    <div class="form-success" id="waitlistSuccess">
-                        You're on the list. We'll be in touch.
+                    <div class="install-row">
+                        <a href="/enterprise/" class="btn btn-primary">View Enterprise Platform</a>
+                        <a href="https://console.ditmsecurity.com" class="btn btn-secondary">Open Armor Console</a>
                     </div>
+                    <p class="platform-note">For pilots: admin logins, browser agent builds, and company enrollment tokens are issued directly through DiTM Security.</p>
                 </div>
             </div>
         </div>
@@ -850,34 +842,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-const GOOGLE_FORM_URL =
-"https://docs.google.com/forms/d/e/1FAIpQLSf2zTUAkMkWUp2mbMCGs9XWNKPJWYQ1MD3UiHgxKwB51rGG3w/formResponse";
-
-const EMAIL_ENTRY_ID = "entry.138807037";
-
-async function submitWaitlist() {
-    const emailInput = document.getElementById("waitlistEmail");
-    const email = emailInput.value.trim();
-
-    if (!email || !email.includes("@")) {
-        alert("Please enter a valid email.");
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append(EMAIL_ENTRY_ID, email);
-
-    await fetch(GOOGLE_FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData
-    });
-
-    document.getElementById("waitlistForm").style.display = "none";
-    document.getElementById("waitlistSuccess").style.display = "block";
-}
-</script>
 </body>
 </html>
