@@ -298,31 +298,103 @@
     <section class="posts">
       <div class="container">
         <div class="post-grid">
-          <a class="post-card" href="./engineering-clickarmor.html">
+          <!-- BLOG_POSTS_START -->
+          <a class="post-card" href="./clickarmor-v1-2-7.html">
             <div class="post-meta">
-              <span class="post-tag">Engineering</span>
-              <span>ClickArmor</span>
+              <span class="post-tag">Release</span>
+              <span>Mar 2026</span>
             </div>
-            <h2>Engineering ClickArmor - From 2,099 Payloads to 56,000 Phishing URLs</h2>
+            <h2>ClickArmor v1.2.7 — Full LOLBAS Coverage, Remote Rules, and Iframe Evasion Detection</h2>
             <p>
-              The engineering story behind the detection engine: payload-level evasion, document.write survival,
-              homoglyph normalization, service worker race conditions, platform-hosted phishing, and large-scale validation.
+              ClickArmor v1.2.7 ships 185 LOLBAS detection rules, remote rule delivery, and detection for Cloudflare impersonation ClickFix attacks delivered via same-origin and cross-origin iframes.
             </p>
             <span class="post-link">Read article</span>
           </a>
 
-          <a class="post-card" href="./clickarmor-v1-2-7.html">
+          <a class="post-card" href="./engineering-clickarmor.html">
             <div class="post-meta">
-              <span class="post-tag">Release</span>
-              <span>v1.2.7</span>
+              <span class="post-tag">Engineering</span>
+              <span>Mar 2026</span>
             </div>
-            <h2>ClickArmor v1.2.7 - Full LOLBAS Coverage, Remote Rules, and Iframe Evasion Detection</h2>
+            <h2>Engineering ClickArmor — From 2,099 Payloads to 56,000 Phishing URLs</h2>
             <p>
-              Release notes for v1.2.7 covering LOLBAS expansion, remote rule delivery, and stronger detection for
-              Cloudflare-style ClickFix attacks delivered through same-origin and cross-origin iframe flows.
+              The engineering story behind ClickArmor’s detection engine, validation pipeline, and the techniques that shaped the product.
             </p>
             <span class="post-link">Read article</span>
           </a>
+
+          <a class="post-card" href="./platform-phishing.html">
+            <div class="post-meta">
+              <span class="post-tag">Detection Engineering</span>
+              <span>Mar 2026</span>
+            </div>
+            <h2>Platform-Hosted Phishing — Detecting Credential Theft on Domains Your Security Stack Trusts</h2>
+            <p>
+              Why phishing on Google Forms, Google Sites, WordPress, Weebly, and other trusted platforms needs brand-aware detection instead of simple domain trust.
+            </p>
+            <span class="post-link">Read article</span>
+          </a>
+
+          <a class="post-card" href="./obfuscated-loaders.html">
+            <div class="post-meta">
+              <span class="post-tag">Technique</span>
+              <span>Mar 2026</span>
+            </div>
+            <h2>Obfuscated Script Loaders — Detecting ClickFix Payloads That Don't Exist Yet</h2>
+            <p>
+              How ClickArmor identifies loader behavior, staged execution, and obfuscated clipboard delivery before the final payload is even present in the page.
+            </p>
+            <span class="post-link">Read article</span>
+          </a>
+
+          <a class="post-card" href="./docwrite-survival.html">
+            <div class="post-meta">
+              <span class="post-tag">Architecture</span>
+              <span>Mar 2026</span>
+            </div>
+            <h2>document.write() Survival — Keeping Detection Alive After DOM Nukes</h2>
+            <p>
+              A look at the browser attack pattern that wipes the page mid-load and the design changes needed to keep detection logic alive through it.
+            </p>
+            <span class="post-link">Read article</span>
+          </a>
+
+          <a class="post-card" href="./cyrillic-homoglyphs.html">
+            <div class="post-meta">
+              <span class="post-tag">Evasion</span>
+              <span>Mar 2026</span>
+            </div>
+            <h2>Cyrillic Homoglyph Evasion — Invisible Characters That Bypass Page Analysis</h2>
+            <p>
+              How homoglyph substitution can hide malicious instructions in plain sight and why normalization became necessary inside ClickArmor’s analysis pipeline.
+            </p>
+            <span class="post-link">Read article</span>
+          </a>
+
+          <a class="post-card" href="./emdash-evasion.html">
+            <div class="post-meta">
+              <span class="post-tag">Evasion</span>
+              <span>Mar 2026</span>
+            </div>
+            <h2>Em Dash Evasion — How ClickFix Attackers Exploit PowerShell's Unicode Tolerance</h2>
+            <p>
+              A ClickFix payload used an em dash and quote fragmentation to bypass regex detection. Here’s how ClickArmor added normalization to counter it.
+            </p>
+            <span class="post-link">Read article</span>
+          </a>
+
+          <a class="post-card" href="./nslookup-dns-staging.html">
+            <div class="post-meta">
+              <span class="post-tag">Technique</span>
+              <span>Mar 2026</span>
+            </div>
+            <h2>nslookup DNS Staging — Detecting the ClickFix Technique Microsoft Disclosed</h2>
+            <p>
+              Why DNS-based staging matters, what made this ClickFix variant notable, and how the detection logic was adapted to catch it reliably.
+            </p>
+            <span class="post-link">Read article</span>
+          </a>
+          <!-- BLOG_POSTS_END -->
         </div>
       </div>
     </section>
@@ -336,3 +408,4 @@
   </footer>
 </body>
 </html>
+
