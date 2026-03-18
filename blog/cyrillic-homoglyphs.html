@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyrillic Homoglyph Evasion — Invisible Characters That Bypass Page Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}:root{--bg:#06060b;--surface:#0c0c14;--surface-2:#12121e;--border:#1a1a2e;--accent:#ff3366;--accent-dim:rgba(255,51,102,0.12);--safe:#00ff88;--warn:#ffaa00;--danger:#ff3366;--text:#e8e8f0;--text-dim:#6a6a88;--text-mid:#9a9ab0;--mono:'JetBrains Mono',monospace;--sans:'Outfit',sans-serif}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.7;overflow-x:hidden}body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}.grid-bg{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(255,51,102,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,51,102,0.03) 1px,transparent 1px);background-size:60px 60px}nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(6,6,11,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}.nav-inner{max-width:820px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}.nav-logo svg{width:32px;height:32px}.nav-logo-text{font-family:var(--mono);font-weight:700;font-size:18px;letter-spacing:2px}.nav-links{display:flex;gap:24px}.nav-links a{color:var(--text-mid);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}.nav-links a:hover{color:var(--text)}.article{max-width:820px;margin:0 auto;padding:120px 24px 80px;position:relative;z-index:1}.article-meta{font-family:var(--mono);font-size:12px;color:var(--text-dim);letter-spacing:1px;margin-bottom:16px;display:flex;align-items:center;gap:16px}.article-meta .tag{background:var(--accent-dim);color:var(--accent);padding:4px 10px;border-radius:4px;font-size:11px;font-weight:600}.article h1{font-size:clamp(32px,5vw,44px);font-weight:800;line-height:1.15;letter-spacing:-1px;margin-bottom:24px}.article h1 span{color:var(--accent)}.article-lead{font-size:18px;color:var(--text-mid);line-height:1.7;margin-bottom:48px;max-width:680px}.article h2{font-size:24px;font-weight:700;margin:56px 0 16px;letter-spacing:-.3px}.article h3{font-size:18px;font-weight:600;margin:36px 0 12px;color:var(--safe);font-family:var(--mono)}.article p{font-size:16px;color:var(--text-mid);line-height:1.8;margin-bottom:20px}.article strong{color:var(--text)}.article code{font-family:var(--mono);font-size:13px;background:var(--surface-2);padding:2px 6px;border-radius:4px;color:var(--safe)}.code-block{background:#0a0a16;border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:20px 0 28px;overflow-x:auto;position:relative}.code-block::before{content:attr(data-label);position:absolute;top:0;right:0;padding:4px 12px;font-family:var(--mono);font-size:10px;color:var(--text-dim);background:var(--surface-2);border-bottom-left-radius:8px;border-top-right-radius:9px;letter-spacing:1px;text-transform:uppercase}.code-block code{font-family:var(--mono);font-size:13px;color:var(--safe);line-height:1.6;white-space:pre;display:block}.code-block code .comment{color:var(--text-dim)}.code-block code .str{color:#ffaa00}.code-block code .key{color:var(--accent)}.info-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;margin:24px 0}.info-card.warn{border-left:3px solid var(--warn)}.info-card.danger{border-left:3px solid var(--danger)}.info-card.safe{border-left:3px solid var(--safe)}.info-card-title{font-family:var(--mono);font-size:12px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}.info-card p{margin-bottom:8px}.info-card p:last-child{margin-bottom:0}hr{border:none;height:1px;background:var(--border);margin:56px 0}.article-footer{margin-top:64px;padding-top:32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}.article-footer .left{font-family:var(--mono);font-size:13px;color:var(--text-dim)}.article-footer .right a{color:var(--text-dim);text-decoration:none;font-size:13px;margin-left:20px}.article-footer .right a:hover{color:var(--text)}@media(max-width:768px){.article h1{font-size:28px}.nav-links{display:none}}</style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <nav><div class="nav-inner"><a href="/" class="nav-logo"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="#ff3366" stroke-width="1.5" fill="none"/><circle cx="16" cy="16" r="3" fill="#ff3366"/><line x1="16" y1="8" x2="16" y2="24" stroke="#ff3366" stroke-width="0.5" opacity="0.4"/><line x1="8" y1="16" x2="24" y2="16" stroke="#ff3366" stroke-width="0.5" opacity="0.4"/></svg><span class="nav-logo-text">DiTM</span></a><div class="nav-links"><a href="/#clickarmor">ClickArmor</a><a href="/#platform">Platform</a><a href="/#research">Research</a></div></div></nav>
+
+    <article class="article">
+        <div class="article-meta"><span class="tag">Detection Engineering</span><span>March 2026</span></div>
+
+        <h1>Cyrillic Homoglyph Evasion — <span>Invisible Characters That Bypass Page Analysis</span></h1>
+
+        <p class="article-lead">
+            A ClickFix page looked like it said "Press Windows Button + R" to a human. To ClickArmor's regex engine, it said nothing recognizable. The text was written with Cyrillic lookalike characters mixed with zero-width spaces.
+        </p>
+
+        <h2>The Technique</h2>
+
+        <p>
+            The visible page text appeared to say "Press Windows Button + R" and "Press CTRL + V" — standard ClickFix instruction patterns. But the actual characters were a mix of Cyrillic and Latin: <strong>Р</strong> (U+0420 Cyrillic) instead of P, <strong>е</strong> (U+0435 Cyrillic) instead of e, <strong>ѕ</strong> (U+0455 Cyrillic) instead of s, <strong>С</strong> (U+0421 Cyrillic) instead of C, <strong>о</strong> (U+043E Cyrillic) instead of o.
+        </p>
+
+        <p>
+            Zero-width spaces (U+2005 four-per-em space, U+FEFF BOM) were also inserted between words. The combination was visually identical to normal English text but completely invisible to regex patterns expecting ASCII.
+        </p>
+
+        <div class="code-block" data-label="What the regex saw">
+<code><span class="comment">// Human sees:    Press Windows Button + R</span>
+<span class="comment">// Regex sees:    Рrеѕѕ Wіndоwѕ Вuttоn + R</span>
+<span class="comment">//                ↑ U+0420  ↑ U+0435  ↑ U+0455</span>
+<span class="comment">// Pattern /press\s+win(dows)?/i → no match</span></code>
+        </div>
+
+        <h2>How We Added Detection</h2>
+
+        <p>
+            A <code>normalizeText()</code> function was added that runs before every regex scan in the page analyzer. It performs four operations in sequence:
+        </p>
+
+        <p>
+            <strong>1. Zero-width character stripping</strong> — removes U+200B through U+200F, U+2060, U+FEFF, and other invisible formatting characters that break word boundaries.
+        </p>
+
+        <p>
+            <strong>2. Exotic whitespace normalization</strong> — converts U+2005 (four-per-em space), U+2003 (em space), U+00A0 (non-breaking space), and other Unicode space variants to standard ASCII spaces.
+        </p>
+
+        <p>
+            <strong>3. NFKD decomposition</strong> — Unicode Normalization Form KD decomposes combined characters into their base + combining mark form, then strips combining diacritical marks (U+0300–U+036F).
+        </p>
+
+        <p>
+            <strong>4. Cyrillic and Greek homoglyph mapping</strong> — 40+ character substitutions mapping lookalike Cyrillic and Greek characters to their ASCII equivalents. Covers uppercase and lowercase variants, including less common mappings like <strong>Ѕ</strong> (U+0405→S), <strong>І</strong> (U+0406→I), <strong>Ї</strong> (U+0407→I), and <strong>Υ</strong> (U+03A5→Y).
+        </p>
+
+        <p>
+            After normalization, the page text becomes standard ASCII — "Press Windows Button + R" — and the existing lure phrase regexes match immediately.
+        </p>
+
+        <div class="info-card safe">
+            <div class="info-card-title">Detection Status</div>
+            <p>The normalization layer runs on all page text before every scan — lure phrases, fake CAPTCHA detection, fake error detection, fake browser update detection, and instruction image analysis. A single addition defeated the entire class of cross-script homoglyph evasion for all detection layers simultaneously.</p>
+        </div>
+
+        <div class="article-footer">
+            <div class="left">DiTM Security &copy; 2026</div>
+            <div class="right"><a href="/">Home</a><a href="https://www.linkedin.com/company/ditm-security/" target="_blank">LinkedIn</a></div>
+        </div>
+    </article>
+</body>
+</html>

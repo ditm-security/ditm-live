@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform-Hosted Phishing — Detecting Credential Theft on Domains Your Security Stack Trusts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}:root{--bg:#06060b;--surface:#0c0c14;--surface-2:#12121e;--border:#1a1a2e;--accent:#ff3366;--accent-dim:rgba(255,51,102,0.12);--safe:#00ff88;--warn:#ffaa00;--danger:#ff3366;--text:#e8e8f0;--text-dim:#6a6a88;--text-mid:#9a9ab0;--mono:'JetBrains Mono',monospace;--sans:'Outfit',sans-serif}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.7;overflow-x:hidden}body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}.grid-bg{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(255,51,102,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,51,102,0.03) 1px,transparent 1px);background-size:60px 60px}nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(6,6,11,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}.nav-inner{max-width:820px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}.nav-logo svg{width:32px;height:32px}.nav-logo-text{font-family:var(--mono);font-weight:700;font-size:18px;letter-spacing:2px}.nav-links{display:flex;gap:24px}.nav-links a{color:var(--text-mid);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}.nav-links a:hover{color:var(--text)}.article{max-width:820px;margin:0 auto;padding:120px 24px 80px;position:relative;z-index:1}.article-meta{font-family:var(--mono);font-size:12px;color:var(--text-dim);letter-spacing:1px;margin-bottom:16px;display:flex;align-items:center;gap:16px}.article-meta .tag{background:var(--accent-dim);color:var(--accent);padding:4px 10px;border-radius:4px;font-size:11px;font-weight:600}.article h1{font-size:clamp(32px,5vw,44px);font-weight:800;line-height:1.15;letter-spacing:-1px;margin-bottom:24px}.article h1 span{color:var(--accent)}.article-lead{font-size:18px;color:var(--text-mid);line-height:1.7;margin-bottom:48px;max-width:680px}.article h2{font-size:24px;font-weight:700;margin:56px 0 16px;letter-spacing:-.3px}.article h3{font-size:18px;font-weight:600;margin:36px 0 12px;color:var(--safe);font-family:var(--mono)}.article p{font-size:16px;color:var(--text-mid);line-height:1.8;margin-bottom:20px}.article strong{color:var(--text)}.article code{font-family:var(--mono);font-size:13px;background:var(--surface-2);padding:2px 6px;border-radius:4px;color:var(--safe)}.info-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;margin:24px 0}.info-card.safe{border-left:3px solid var(--safe)}.info-card.warn{border-left:3px solid var(--warn)}.info-card-title{font-family:var(--mono);font-size:12px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}.info-card p{margin-bottom:8px}.info-card p:last-child{margin-bottom:0}.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:28px 0}.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center}.stat-card .num{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--safe)}.stat-card .label{font-size:12px;color:var(--text-dim);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}hr{border:none;height:1px;background:var(--border);margin:56px 0}.article-footer{margin-top:64px;padding-top:32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}.article-footer .left{font-family:var(--mono);font-size:13px;color:var(--text-dim)}.article-footer .right a{color:var(--text-dim);text-decoration:none;font-size:13px;margin-left:20px}.article-footer .right a:hover{color:var(--text)}@media(max-width:768px){.article h1{font-size:28px}.nav-links{display:none}.stats-row{grid-template-columns:repeat(2,1fr)}}</style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <nav><div class="nav-inner"><a href="/" class="nav-logo"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="#ff3366" stroke-width="1.5" fill="none"/><circle cx="16" cy="16" r="3" fill="#ff3366"/><line x1="16" y1="8" x2="16" y2="24" stroke="#ff3366" stroke-width="0.5" opacity="0.4"/><line x1="8" y1="16" x2="24" y2="16" stroke="#ff3366" stroke-width="0.5" opacity="0.4"/></svg><span class="nav-logo-text">DiTM</span></a><div class="nav-links"><a href="/#clickarmor">ClickArmor</a><a href="/#platform">Platform</a><a href="/#research">Research</a></div></div></nav>
+
+    <article class="article">
+        <div class="article-meta"><span class="tag">Detection Engineering</span><span>March 2026</span></div>
+
+        <h1>Platform-Hosted Phishing — <span>Detecting Credential Theft on Domains Your Security Stack Trusts</span></h1>
+
+        <p class="article-lead">
+            Google Forms collecting passwords. WordPress.com pages impersonating Microsoft 365. Google Drawings linking to credential harvesters. Weebly hosting fake bank logins. These are phishing pages on domains that every blocklist, URL filter, and reputation engine considers safe.
+        </p>
+
+        <div class="stats-row">
+            <div class="stat-card"><div class="num">56K+</div><div class="label">PhishTank URLs tested</div></div>
+            <div class="stat-card"><div class="num">137</div><div class="label">Brands in detection DB</div></div>
+            <div class="stat-card"><div class="num">45</div><div class="label">Hosting platforms tracked</div></div>
+            <div class="stat-card"><div class="num">2 tiers</div><div class="label">Platform classification</div></div>
+        </div>
+
+        <h2>The Problem</h2>
+
+        <p>
+            Traditional phishing detection relies on domain reputation. A URL on <code>docs.google.com</code> or <code>wordpress.com</code> passes every reputation check because the domain is legitimate — it's the content that's malicious. Attackers exploit this by hosting fake login forms on free platforms where anyone can create content.
+        </p>
+
+        <p>
+            From the PhishTank dataset: Weebly alone hosted <strong>1,243 phishing pages</strong> with 1,030 containing active credential forms. Google Docs, Sites, Drawings, and Forms collectively accounted for hundreds more. WordPress.com, Wix, Blogspot, and dozens of other free hosting services filled out the long tail.
+        </p>
+
+        <h2>How We Added Detection</h2>
+
+        <h3>Tier-Based Platform Gating</h3>
+
+        <p>
+            Adding 45 platforms to detection introduced a false positive problem — legitimate login pages on WordPress apps and Netlify-hosted services were triggering warnings. A simple email-and-password form on a WordPress-hosted app is normal.
+        </p>
+
+        <p>
+            The fix was a two-tier classification. <strong>Tier 1</strong> platforms are pure form builders — Google Forms, Typeform, Jotform, SurveyMonkey, Carrd, Google Sites — where a password field is always suspicious because these platforms have no legitimate reason to collect credentials. <strong>Tier 2</strong> platforms are hosting services — WordPress.com, Netlify, Heroku, Vercel, Wix — where real apps live. On Tier 2, detection only fires when there are additional signals beyond basic login: brand impersonation, high-severity field combinations, or threatening page text.
+        </p>
+
+        <h3>Google Forms Deep DOM Traversal</h3>
+
+        <p>
+            Google Forms renders question labels and input fields in deeply nested containers — the heading text and the input element are typically 6–8 DOM levels apart. The field scanner originally walked 3 parent levels looking for associated label text, which never reached Google Forms' question headings. A 10-level deep walk was added with structural awareness for Google Forms' specific DOM patterns: <code>role="listitem"</code> containers, <code>data-params</code> question metadata attributes, and Google's form rendering CSS classes.
+        </p>
+
+        <h3>Contenteditable Scanning</h3>
+
+        <p>
+            Phishing hosted on Google Docs uses <code>contenteditable</code> divs instead of <code>&lt;input&gt;</code> elements. The form scanner was extended to scan <code>contenteditable</code> regions for sensitive data patterns in their visible text. On platform hosts like <code>docs.google.com</code>, a standalone check triggers the blocking overlay based on brand impersonation signals in page text alone — without requiring traditional form elements.
+        </p>
+
+        <h3>Brand-Aware Overlays</h3>
+
+        <p>
+            When a phishing page impersonates a known brand, the warning overlay identifies it by name. Instead of a generic "suspicious form" alert, the user sees: <strong>"This page is pretending to be Microsoft. The real site is login.microsoftonline.com, not this domain."</strong> Brand detection covers 137 brands with 318 aliases, validated against the full PhishTank verified feed.
+        </p>
+
+        <h3>Standalone Credential Harvester Detection</h3>
+
+        <p>
+            Some phishing pages collect credentials without impersonating any brand and without matching known field patterns. A page on a form platform with 3+ input fields and threatening language — "failure to verify will result in account closure" — is caught by a standalone detection path that combines field count, platform context, and coercive text analysis.
+        </p>
+
+        <div class="info-card safe">
+            <div class="info-card-title">Validation</div>
+            <p>Tested against 56,000+ PhishTank verified phishing URLs using a 3-stage automated pipeline. On dedicated phishing domains with active credential forms, zero evasions were observed. Platform-hosted phishing on Google Docs, Forms, Sites, Drawings, SharePoint, WordPress.com, and Weebly is detected via cross-brand impersonation checks and deep DOM traversal.</p>
+        </div>
+
+        <div class="article-footer">
+            <div class="left">DiTM Security &copy; 2026</div>
+            <div class="right"><a href="/">Home</a><a href="https://www.linkedin.com/company/ditm-security/" target="_blank">LinkedIn</a></div>
+        </div>
+    </article>
+</body>
+</html>
