@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering ClickArmor — From 2,099 Payloads to 56,000 Phishing URLs</title>
+    <meta name="description" content="The engineering story behind ClickArmor's detection engine — payload-level evasion techniques, document.write() survival, Cyrillic homoglyph normalization, service worker race conditions, platform-hosted phishing, and validating at scale.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #06060b; --surface: #0c0c14; --surface-2: #12121e;
+            --border: #1a1a2e; --accent: #ff3366; --accent-dim: rgba(255, 51, 102, 0.12);
+            --safe: #00ff88; --warn: #ffaa00; --danger: #ff3366;
+            --text: #e8e8f0; --text-dim: #6a6a88; --text-mid: #9a9ab0;
+            --mono: 'JetBrains Mono', monospace; --sans: 'Outfit', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.7; overflow-x: hidden; }
+        body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); }
+        .grid-bg { position: fixed; inset: 0; z-index: 0; background-image: linear-gradient(rgba(255,51,102,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,51,102,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,6,11,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width: 820px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+        .nav-logo svg { width: 32px; height: 32px; }
+        .nav-logo-text { font-family: var(--mono); font-weight: 700; font-size: 18px; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        .article { max-width: 820px; margin: 0 auto; padding: 120px 24px 80px; position: relative; z-index: 1; }
+        .article-meta { font-family: var(--mono); font-size: 12px; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; }
+        .article-meta .tag { background: var(--accent-dim); color: var(--accent); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+        .article h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 800; line-height: 1.15; letter-spacing: -1px; margin-bottom: 24px; }
+        .article h1 span { color: var(--accent); }
+        .article-lead { font-size: 18px; color: var(--text-mid); line-height: 1.7; margin-bottom: 48px; max-width: 680px; }
+        .article h2 { font-size: 24px; font-weight: 700; margin: 56px 0 16px; letter-spacing: -0.3px; }
+        .article h3 { font-size: 18px; font-weight: 600; margin: 36px 0 12px; color: var(--safe); font-family: var(--mono); }
+        .article p { font-size: 16px; color: var(--text-mid); line-height: 1.8; margin-bottom: 20px; }
+        .article strong { color: var(--text); }
+        .article a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(255,51,102,0.3); text-underline-offset: 3px; }
+        .article a:hover { text-decoration-color: var(--accent); }
+        .article code { font-family: var(--mono); font-size: 13px; background: var(--surface-2); padding: 2px 6px; border-radius: 4px; color: var(--safe); }
+        .code-block { background: #0a0a16; border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin: 20px 0 28px; overflow-x: auto; position: relative; }
+        .code-block::before { content: attr(data-label); position: absolute; top: 0; right: 0; padding: 4px 12px; font-family: var(--mono); font-size: 10px; color: var(--text-dim); background: var(--surface-2); border-bottom-left-radius: 8px; border-top-right-radius: 9px; letter-spacing: 1px; text-transform: uppercase; }
+        .code-block code { font-family: var(--mono); font-size: 13px; color: var(--safe); line-height: 1.6; white-space: pre; display: block; }
+        .code-block code .comment { color: var(--text-dim); }
+        .code-block code .str { color: #ffaa00; }
+        .code-block code .key { color: var(--accent); }
+        .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin: 24px 0; }
+        .info-card.warn { border-left: 3px solid var(--warn); }
+        .info-card.danger { border-left: 3px solid var(--danger); }
+        .info-card.safe { border-left: 3px solid var(--safe); }
+        .info-card-title { font-family: var(--mono); font-size: 12px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .info-card p { margin-bottom: 8px; }
+        .info-card p:last-child { margin-bottom: 0; }
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin: 28px 0; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
+        .stat-card .num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--safe); }
+        .stat-card .label { font-size: 12px; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .attack-flow { display: flex; flex-direction: column; gap: 2px; margin: 24px 0 32px; }
+        .attack-step { display: flex; gap: 16px; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; align-items: flex-start; }
+        .attack-step:hover { border-color: var(--accent); }
+        .attack-step .step-num { font-family: var(--mono); font-size: 12px; color: var(--accent); min-width: 24px; padding-top: 1px; }
+        .attack-step .step-text { font-size: 14px; color: var(--text-mid); line-height: 1.5; }
+        .attack-step .step-text strong { color: var(--text); }
+        hr { border: none; height: 1px; background: var(--border); margin: 56px 0; }
+        .article-footer { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .article-footer .left { font-family: var(--mono); font-size: 13px; color: var(--text-dim); }
+        .article-footer .right a { color: var(--text-dim); text-decoration: none; font-size: 13px; margin-left: 20px; }
+        .article-footer .right a:hover { color: var(--text); }
+        @media (max-width: 768px) { .article h1 { font-size: 28px; } .nav-links { display: none; } .stats-row { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <svg viewBox="0 0 32 32" fill="none"><path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="#ff3366" stroke-width="1.5" fill="none"/><circle cx="16" cy="16" r="3" fill="#ff3366"/><line x1="16" y1="8" x2="16" y2="24" stroke="#ff3366" stroke-width="0.5" opacity="0.4"/><line x1="8" y1="16" x2="24" y2="16" stroke="#ff3366" stroke-width="0.5" opacity="0.4"/></svg>
+                <span class="nav-logo-text">DiTM</span>
+            </a>
+            <div class="nav-links">
+                <a href="/#clickarmor">ClickArmor</a>
+                <a href="/#platform">Platform</a>
+                <a href="/#research">Research</a>
+                <a href="/blog/">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <article class="article">
+        <div class="article-meta">
+            <span class="tag">Engineering</span>
+            <span>February – March 2026</span>
+        </div>
+
+        <h1>Building ClickArmor — <span>Every Evasion We Found and How We Beat It</span></h1>
+
+        <p class="article-lead">
+            ClickArmor was built by testing against real attack infrastructure — not synthetic samples. This post documents the evasion techniques we encountered across thousands of live ClickFix and credential phishing domains, and the detection engineering that followed.
+        </p>
+
+        <div class="stats-row">
+            <div class="stat-card"><div class="num">2,099</div><div class="label">Payloads tested (regex)</div></div>
+            <div class="stat-card"><div class="num">6,000+</div><div class="label">ClickFix domains</div></div>
+            <div class="stat-card"><div class="num">56,000+</div><div class="label">Phishing URLs validated</div></div>
+            <div class="stat-card"><div class="num">100+</div><div class="label">Brands covered</div></div>
+        </div>
+
+        <hr>
+
+        <h2>Em Dash Flag Evasion</h2>
+
+        <p>
+            A ClickFix payload was discovered using an <strong>em dash</strong> (U+2014) instead of a standard hyphen before the <code>-e</code> encoded command flag: <code>pOweRSHeLL —e [base64]</code>. PowerShell accepts the em dash as a valid parameter prefix, but regex patterns matching <code>-enc</code> or <code>-e</code> only look for the ASCII hyphen U+002D.
+        </p>
+
+        <p>
+            The same payload also embedded double quotes throughout the Base64 blob — <code>a"QBy"AG0A</code> — which breaks contiguous pattern matching for <code>[A-Za-z0-9+/=]{20,}</code> runs. PowerShell silently strips these quotes during argument parsing.
+        </p>
+
+        <p>
+            Both techniques were countered by adding a normalization step that collapses em dash, en dash, figure dash, horizontal bar, and fullwidth hyphen to the ASCII hyphen, and a second pass that strips inline quotes embedded between alphanumeric characters.
+        </p>
+
+        <hr>
+
+        <h2>Cyrillic Homoglyph Evasion</h2>
+
+        <p>
+            A ClickFix page rendered instructions that appeared to say "Press Windows Button + R" to a human reader, but the actual text used Cyrillic lookalike characters — <strong>Р</strong> (U+0420) instead of P, <strong>е</strong> (U+0435) instead of e, <strong>ѕ</strong> (U+0455) instead of s. The lure phrase regexes, which match ASCII <code>/press\s+win(dows)?/i</code>, passed right over the Cyrillic text.
+        </p>
+
+        <p>
+            The fix was a normalization layer applied before all page text analysis. It performs NFKD decomposition, strips combining diacritical marks and zero-width characters, normalizes exotic whitespace variants (U+2005 four-per-em space, etc.) to regular spaces, and maps 40+ Cyrillic and Greek homoglyphs to their ASCII equivalents. This single addition defeated the entire class of cross-script evasion.
+        </p>
+
+        <hr>
+
+        <h2>document.write() DOM Replacement</h2>
+
+        <p>
+            A compromised WordPress site used a multi-stage C2 loader: an obfuscated inline script fetched a payload from a remote server via XHR, then called <code>document.open("text/html")</code> followed by <code>document.write()</code> to replace the entire page with a ClickFix lure. This is a nuclear option — it destroys the MutationObserver, all injected UI, all event listeners on <code>document</code>, and all page-world clipboard hooks.
+        </p>
+
+        <p>
+            The content script's isolated world JavaScript context survives the replacement, but all its DOM references are orphaned. The fix was a heartbeat monitor that periodically checks whether a hidden marker element still exists. If the marker disappears, the system detects the DOM was replaced, resets all UI state flags, reattaches the MutationObserver to the new document, re-registers event listeners, attempts to re-inject clipboard hooks, and immediately re-scans. The existing lure detection layers then score the newly injected ClickFix content and re-show the warning.
+        </p>
+
+        <hr>
+
+        <h2>CSP-Blocked Clipboard Hooks</h2>
+
+        <p>
+            ClickArmor's clipboard interception works by injecting a <code>&lt;script&gt;</code> tag into the page world at <code>document_start</code> to hook <code>navigator.clipboard.writeText</code> and <code>document.execCommand('copy')</code>. Sites with strict Content Security Policy headers block this inline script injection silently.
+        </p>
+
+        <p>
+            When the hooks can't install and a ClickFix page writes a malicious command to the clipboard via a click handler, the standard interception path fails entirely. The fix was an alternative clipboard monitoring approach: on pages scoring above the threat threshold, a capture-phase click listener watches for interactions with elements that look like copy or verification buttons, then reads clipboard contents after a short delay using <code>navigator.clipboard.readText()</code>. This bypasses the page-world hook requirement entirely — the extension reads what landed in the clipboard after the fact rather than intercepting the write call.
+        </p>
+
+        <hr>
+
+        <h2>Obfuscated Remote Script Loaders</h2>
+
+        <p>
+            A class of ClickFix pages was identified where the page source contains no malicious content at all. Instead, a heavily obfuscated JavaScript loader fetches the actual payload from a remote C2 server. The obfuscation techniques observed include <code>_0x</code>-style variable renaming (obfuscator.io output), Base64-encoded C2 URLs inside <code>atob()</code> calls, string array rotation with <code>push/shift</code> loops, <code>parseInt</code> shuffling chains, CSS body-hide tricks (<code>opacity:0</code> with delayed <code>fadeIn</code>), and <code>sessionStorage</code> gating to only fire once per session.
+        </p>
+
+        <p>
+            A dedicated detection layer was built that scans all inline <code>&lt;script&gt;</code> blocks for these obfuscation signatures. Each signal is scored independently, and the combination of multiple signals — atob with a long Base64 string, URL decoded from Base64, <code>_0x</code> obfuscation, dynamic script injection, and body concealment — produces a high-confidence detection even though the actual ClickFix payload hasn't been delivered yet.
+        </p>
+
+        <hr>
+
+        <h2>Fake Browser Update Progressive Reveal</h2>
+
+        <p>
+            A variant disguised as a browser update page used a progressive reveal technique. On initial load, only a benign-looking "Install Update" screen was visible. The malicious content — Win+R instructions, a PowerShell command, and a copy button — lived inside a hidden <code>&lt;div&gt;</code> with <code>display: none</code>. JavaScript progressively revealed steps 1 through 4 as the user clicked through the flow.
+        </p>
+
+        <p>
+            The page analyzer originally scanned <code>document.body.innerText</code>, which excludes <code>display:none</code> content. The fix was to also scan <code>document.body.textContent</code>, which includes hidden elements, and take the higher score between visible and hidden text analysis. A dedicated fake browser update detection layer was also added, catching version comparison UIs, fake download progress, and the critical "finalize update via command" pattern.
+        </p>
+
+        <hr>
+
+        <h2>Server-Side Payload Delivery</h2>
+
+        <p>
+            One domain used a technique where the clipboard payload was never present in the page source. Instead, an AJAX call to <code>api.php</code> returned the payload only after the user clicked a fake CAPTCHA checkbox. The server response contained the payload with junk characters interspersed and a delimiter to strip them — a custom deobfuscation scheme designed to avoid Base64 patterns.
+        </p>
+
+        <p>
+            The clipboard hook catches the final <code>execCommand('copy')</code> call with the assembled string, but the page-level analyzer sees nothing suspicious in the static HTML. The defense here is multi-layered: the page's lure text (Win+R instructions, verification language) triggers the page-level warning and lowers the clipboard scoring threshold, while the clipboard hook intercepts the dynamically assembled payload when it's finally written.
+        </p>
+
+        <hr>
+
+        <h2>nslookup DNS Payload Staging</h2>
+
+        <p>
+            Following Microsoft's disclosure of a new ClickFix technique, detection was added for attacks that abuse DNS lookups to stage payloads. The technique pipes <code>nslookup</code> output through <code>findstr</code> to extract encoded commands from DNS TXT records, then executes them. Both clean and caret-obfuscated variants (<code>n^s^l^o^o^k^u^p</code>, <code>p^o^w^e^r^s^h^e^l^l</code>) were covered.
+        </p>
+
+        <hr>
+
+        <h2>Platform-Hosted Credential Phishing</h2>
+
+        <p>
+            A significant portion of credential phishing is hosted on legitimate platforms — Google Forms, Google Docs, Google Drawings, Google Sites, SharePoint, WordPress.com, Weebly, Wix, and dozens of other free hosting services. These domains are trusted by default, often whitelisted by security tools, and bypass domain reputation checks entirely.
+        </p>
+
+        <p>
+            The detection approach separates platforms into two tiers. Tier 1 platforms are pure form builders (Google Forms, Typeform, Jotform) where a password field is always suspicious. Tier 2 platforms are hosting services (WordPress.com, Netlify, Heroku) where legitimate apps have real login pages — these only fire when there are signals beyond a simple email-and-password form: brand impersonation, high-severity field combinations, or threatening language.
+        </p>
+
+        <p>
+            For Google's own platforms, the detection correctly allows cross-brand impersonation checks — a fake Microsoft login hosted on <code>docs.google.com</code> gets flagged, while Google's own legitimate services do not. Google Forms pages where the form questions request passwords are caught via deep DOM traversal that walks the nested container structure to find question heading text associated with input fields.
+        </p>
+
+        <hr>
+
+        <h2>Brand Impersonation at Scale</h2>
+
+        <p>
+            Brand detection was validated by running the full PhishTank verified feed — 56,000+ URLs — through a lightweight HTTP extraction pipeline. The pipeline fetches each page's HTML, extracts title, meta tags, headings, form labels, and body text, and matches against a database of 137 brands with 318 aliases. On dedicated phishing domains with active credential forms, zero evasions were observed. The pipeline also identified 33 new brands being impersonated that were added to the detection database.
+        </p>
+
+        <p>
+            When a phishing page impersonates a known brand, the warning overlay identifies the brand by name and tells the user what the real domain should be — turning a generic "suspicious form" alert into an actionable "This page is pretending to be Microsoft. The real site is login.microsoftonline.com, not this domain."
+        </p>
+
+        <hr>
+
+        <h2>Validation Pipeline</h2>
+
+        <p>
+            The testing infrastructure consists of a three-stage automated pipeline. Stage 1 performs lightweight HTTP fetches to filter dead domains and extract form indicators. Stage 2 launches a real browser with ClickArmor loaded, visits each URL, and polls for detection signals — the <code>data-cg-page-threat</code> attribute confirms the scan completed, and <code>data-cg-banner-shown</code> and <code>data-cg-overlay-shown</code> confirm the warning UI was rendered. Stage 3 screenshots every miss for manual review and categorization.
+        </p>
+
+        <p>
+            The pipeline is designed to produce honest numbers. Misses are classified into actionable categories — true misses (detection gap, needs a fix), dead pages (taken down since the feed was published), platform-hosted (legitimate domain, different detection problem), and generic webmail (no brand to match). This prevents inflated detection rates from counting dead pages as successes.
+        </p>
+
+        <hr>
+
+        <h2>Multi-Stage C2 Loader Detection</h2>
+
+        <p>
+            A class of attacks was discovered that chains multiple loader stages before the ClickFix lure ever appears. The initial page contains a <code>data:text/javascript;base64</code> script src that decodes to a first-stage loader. That loader double-decodes a Base64 array of fallback C2 server URLs, uses cascading <code>onerror</code> callbacks so if one server is down the next fires automatically, and ultimately fetches a final payload from a remote server. The final payload uses <code>document.write()</code> to replace the entire page with the ClickFix lure. A <code>sessionStorage</code> counter gates the attack to fire only a limited number of times per session, so researchers see nothing on revisit.
+        </p>
+
+        <p>
+            Detection was added as a dedicated layer that scans inline script blocks for the specific combination of signals: <code>data:text/javascript;base64</code> script sources, nested <code>atob()</code> calls with URL arrays, <code>onerror</code> cascading fallback patterns, XHR response piped into <code>script.textContent</code> injection, junk comment flooding (where over 75% of a script file is fake comments to obscure the real code), and <code>sessionStorage</code> counter gating. The heartbeat recovery mechanism already in place then handles the <code>document.write()</code> DOM replacement that follows.
+        </p>
+
+        <hr>
+
+        <h2>Embedded Payload Detection</h2>
+
+        <p>
+            Some ClickFix pages embed the malicious command directly in DOM elements — inside <code>&lt;code&gt;</code>, <code>&lt;pre&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;input&gt;</code>, or <code>data-clipboard-text</code> attributes — rather than dynamically writing it to the clipboard via JavaScript. The page-level scanner only checked visible text for lure phrases, not for actual command payloads sitting in the DOM waiting to be copied.
+        </p>
+
+        <p>
+            A new detection layer was added that scans these DOM elements directly for command patterns: PowerShell download cradles, mshta remote execution, cmd wrappers, curl drops, and LOLBin invocations. When a match is found, the detector also checks for adjacent copy buttons. A fake browser update page with a PowerShell <code>iwr|iex</code> command inside a <code>&lt;code&gt;</code> element and a nearby "Copy" button scores high enough to trigger the warning before the user ever clicks.
+        </p>
+
+        <hr>
+
+        <h2>Service Worker Message Delivery</h2>
+
+        <p>
+            A detection gap was identified where the clipboard scanner correctly scored a payload as malicious, but the block verdict never reached the content script to display the overlay. The root cause was a race condition in the service worker's async message handler. Each <code>await</code> in the handler is a yield point where the service worker can go idle, and if the message port closes before <code>sendResponse</code> executes, the content script receives <code>undefined</code> and silently bails.
+        </p>
+
+        <p>
+            The fix replaced the fire-and-forget async pattern with an explicit promise chain that holds a reference the runtime can track. The handler now wraps all logic in a named async function, chains <code>.then(sendResponse)</code> to ensure the response fires even if the service worker yields between storage operations, and includes a <code>.catch</code> fallback that sends an error response rather than letting the port close silently.
+        </p>
+
+        <hr>
+
+        <h2>Google Forms Deep DOM Traversal</h2>
+
+        <p>
+            Google Forms renders question labels and input fields in a deeply nested container structure. The question heading text and the associated input element are siblings at a very high ancestor level — typically 6 to 8 DOM levels apart. The field context scanner originally walked only 3 parent levels looking for label text, which never reached the question heading on Google Forms pages.
+        </p>
+
+        <p>
+            The fix extended the parent walk to 10 levels and added structural awareness for Google Forms' specific DOM patterns: <code>role="listitem"</code> containers, <code>data-params</code> attributes where Google stores question metadata, and CSS classes used by Google's form rendering engine. The deep walk finds the question heading associated with each input field, enabling the form detector to catch Google Forms pages that request passwords, MFA codes, or other sensitive data through their question labels.
+        </p>
+
+        <hr>
+
+        <h2>Contenteditable Scanning</h2>
+
+        <p>
+            Phishing pages hosted on Google Docs use <code>contenteditable</code> divs rather than standard <code>&lt;input&gt;</code> elements. The form detector scanned only <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>, and <code>&lt;select&gt;</code> elements, making Google Docs credential harvesting pages completely invisible to field-level scanning.
+        </p>
+
+        <p>
+            Detection was extended to scan <code>contenteditable</code> regions for sensitive data patterns in their visible text content. On platform hosts like <code>docs.google.com</code>, a standalone brand check was also added that triggers the blocking overlay based on brand impersonation signals in the page text alone — without requiring traditional form input elements to be present.
+        </p>
+
+        <hr>
+
+        <h2>Tier-Based Platform Gating</h2>
+
+        <p>
+            Adding dozens of free hosting platforms to the detection database introduced a false positive problem: legitimate login pages on WordPress.com, Netlify, Heroku, and similar platforms were triggering warnings. A simple email-and-password form on a WordPress-hosted app is a normal login page, not a phishing form.
+        </p>
+
+        <p>
+            The fix was a two-tier classification. Tier 1 platforms are pure form builders — Google Forms, Typeform, Jotform — where a password field is always suspicious because these platforms have no legitimate reason to collect credentials. Tier 2 platforms are hosting services where real applications have real login pages. On Tier 2 platforms, detection only fires when there are additional signals beyond a basic login form: brand impersonation, high-severity field combinations like password paired with SSN, unusual field requests like former credentials or school names, or threatening page text.
+        </p>
+
+        <hr>
+
+        <h2>Standalone Credential Harvester Detection</h2>
+
+        <p>
+            Some phishing pages collect credentials without impersonating any specific brand and without matching any known sensitive field patterns. A page on a free hosting platform with three or more input fields and threatening language — "failure to verify will result in account closure" — is almost certainly a credential harvester, but it doesn't match any brand and its field labels may be generic.
+        </p>
+
+        <p>
+            A standalone detection path was added for pages on form platforms that combine multiple input fields with coercive text patterns: account termination threats, urgency deadlines, unauthorized access claims, and compliance language. This catches the long tail of credential phishing that falls outside brand matching and specific field label detection, while the platform tier gating prevents it from firing on legitimate forms.
+        </p>
+
+        <hr>
+
+        <h2>Early Return Logic Bug</h2>
+
+        <p>
+            A single misplaced line silenced every detection layer on an entire class of fake browser update pages. In the lure phrase scanner, a <code>let score = 0</code> declaration was positioned after the loop that incremented it. Accessing a <code>let</code> variable before its declaration throws a <code>ReferenceError</code> from the temporal dead zone — and because the lure scanner was the first layer called in the analysis chain, the uncaught exception crashed the entire page threat calculation. Every subsequent detection layer — fake CAPTCHA, fake errors, obfuscated loaders, embedded payloads — was never reached.
+        </p>
+
+        <p>
+            The fix was moving one line of code. The broader lesson was adding the analysis chain to the automated regression pipeline so that a crash in any single layer would surface immediately rather than silently disabling all downstream detection.
+        </p>
+
+        <div class="article-footer">
+            <div class="left">DiTM Security &copy; 2026</div>
+            <div class="right">
+                <a href="/">Home</a>
+                <a href="/blog/">Blog</a>
+                <a href="https://www.linkedin.com/company/ditm-security/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </article>
+</body>
+</html>
