@@ -657,7 +657,7 @@
     }
 
     .coming-card li::before {
-      content: "→";
+      content: "->";
       position: absolute;
       left: 0;
       top: 0;
@@ -749,10 +749,10 @@
           <div class="eyebrow">Enterprise Browser Defense</div>
           <h1>Protect the <span>browser</span> where social engineering actually lands.</h1>
           <p class="hero-copy">
-            DiTM Armor gives security teams a dedicated console, lightweight browser agents, and live organization-scoped detections for ClickFix, credential phishing, fake login flows, and malicious browser-driven attack paths.
+            DiTM Armor gives security teams lightweight browser agents, a thin admin control plane, and browser-native detections that can feed directly into Splunk without forcing analysts into another tool.
           </p>
           <div class="hero-actions">
-            <a class="cta cta-primary" href="https://console.ditmsecurity.com">Open Armor Console</a>
+            <a class="cta cta-primary" href="https://console.ditmsecurity.com">Open Control Plane</a>
             <a class="cta cta-secondary" href="https://youtu.be/mR17goI6k_8">Watch platform demo</a>
           </div>
           <div class="proof-strip">
@@ -765,8 +765,8 @@
               <span>Detection executes in the browser</span>
             </div>
             <div class="proof-card">
-              <strong>Live</strong>
-              <span>Org-scoped detections in the console</span>
+              <strong>SIEM</strong>
+              <span>Events can land in Splunk</span>
             </div>
             <div class="proof-card">
               <strong>Token</strong>
@@ -776,7 +776,7 @@
         </div>
 
         <div class="hero-panel">
-          <div class="terminal-tag">ORG-SCOPED CONSOLE • LIVE TELEMETRY</div>
+          <div class="terminal-tag">ORG-SCOPED CONSOLE + LIVE TELEMETRY</div>
           <div class="console-shell">
             <div class="shell-top">
               <div class="shell-title">
@@ -847,39 +847,37 @@
           <div class="label">Platform</div>
           <h2>A dedicated enterprise surface, not a consumer extension page in disguise.</h2>
           <p>
-            The enterprise platform is built around one company-specific console, organization-scoped agents, and a clean deployment model that lets security teams see detections flow without managing a separate SOC stack.
+            The enterprise platform is built around one company-specific control plane, organization-scoped agents, and a deployment model that lets security teams add browser-layer signal without taking on another SOC tool.
           </p>
         </div>
 
         <div class="platform-grid">
           <article class="platform-card">
             <div class="index">01</div>
-            <h3>Organization-scoped console</h3>
-            <p>Admins log into a dedicated DiTM Armor console and only see their own detections, agents, and policies.</p>
+            <h3>Thin control plane</h3>
+            <p>Admins log into a dedicated DiTM Armor surface for tokens, policies, and agent health instead of a full separate detection console.</p>
             <div class="chip-list">
               <span class="chip">Org-specific login</span>
-              <span class="chip">Live dashboard</span>
-              <span class="chip">Scoped detections</span>
+              <span class="chip">Token management</span>
+              <span class="chip">Policy control</span>
             </div>
           </article>
 
           <article class="platform-card">
             <div class="index">02</div>
-            <h3>Lightweight browser agents</h3>
-            <p>Users install a small browser agent with built-in backend configuration and enroll with a company token.</p>
+            <h3>SIEM-first integration</h3>
+            <p>Users install a small browser agent with built-in backend configuration, enroll with a company token, and feed detections into Splunk for triage and correlation.</p>
             <div class="chip-list">
-              <span class="chip">Chrome</span>
-              <span class="chip">Edge</span>
-              <span class="chip">Firefox</span>
-              <span class="chip">Brave</span>
-              <span class="chip">Opera</span>
+              <span class="chip">Splunk HEC</span>
+              <span class="chip">Structured events</span>
+              <span class="chip">Existing workflow</span>
             </div>
           </article>
 
           <article class="platform-card">
             <div class="index">03</div>
             <h3>Local-first detection + policy sync</h3>
-            <p>Detection executes inside the browser while the console handles reporting, enrollment, policies, and controlled rule updates.</p>
+            <p>Detection executes inside the browser while DiTM handles reporting, enrollment, policies, and controlled rule updates behind the scenes.</p>
             <div class="chip-list">
               <span class="chip">Local scoring</span>
               <span class="chip">Remote rule feeds</span>
@@ -896,13 +894,13 @@
           <article class="stack-card">
             <div class="section-head" style="margin-bottom:24px;">
               <div class="label">Architecture</div>
-              <h2>Built for deployment simplicity and browser-native visibility.</h2>
-              <p>DiTM Armor keeps the user flow simple while still giving the admin a proper control plane.</p>
+              <h2>Built for deployment simplicity and SIEM-first visibility.</h2>
+              <p>DiTM Armor keeps the user flow simple while giving administrators the control they need and analysts the workflow they already use.</p>
             </div>
             <div class="stack-list">
               <div class="stack-item">
                 <strong>Admin</strong>
-                <span>Logs into the enterprise console, sees the org dashboard, manages deployment, and monitors detections live.</span>
+                <span>Uses the control plane for org setup, enrollment tokens, policy, and agent health.</span>
               </div>
               <div class="stack-item">
                 <strong>Agent</strong>
@@ -927,7 +925,7 @@
               <span class="chip">Clear live feedback</span>
             </div>
             <p style="color: var(--text-mid); margin-bottom: 18px;">
-              The admin sees a real platform, not a spreadsheet of alerts. Users install, paste the token, browse normally, and the console starts receiving browser-native detections immediately.
+              The pilot is meant to feel light: users install, enroll, browse normally, and detections show up where the security team already works. DiTM keeps the admin surface focused on deployment and control.
             </p>
             <div class="event-stream">
               <h3>Operator view</h3>
@@ -935,7 +933,7 @@
                 <div class="event-sev sev-high">step</div>
                 <div class="event-copy">
                   <strong>Create org and admin access</strong>
-                  <span>Company gets its own dashboard experience</span>
+                  <span>Company gets its own admin and policy surface</span>
                 </div>
                 <div class="event-time">01</div>
               </div>
@@ -950,8 +948,8 @@
               <div class="event">
                 <div class="event-sev sev-critical">step</div>
                 <div class="event-copy">
-                  <strong>Watch detections hit the console live</strong>
-                  <span>Visible value during the pilot, not after it</span>
+                  <strong>Watch detections hit Splunk live</strong>
+                  <span>Visible value inside the existing SOC workflow</span>
                 </div>
                 <div class="event-time">03</div>
               </div>
@@ -1061,7 +1059,7 @@
             <h3>Enterprise Controls</h3>
             <ul>
               <li>Malicious extension monitoring</li>
-              <li>Org-wide management console + SIEM integration</li>
+              <li>Thin admin plane plus SIEM integration</li>
               <li>Expanded policy and identity workflow coverage</li>
               <li>Deeper browser-based incident visibility</li>
             </ul>
@@ -1074,9 +1072,11 @@
 
   <footer>
     <div class="container footer-line">
-      <span>DiTM Security • Browser-native enterprise defense</span>
-      <span>pilots@ditmsecurity.com • console.ditmsecurity.com</span>
+      <span>DiTM Security - Browser-native enterprise defense</span>
+      <span>pilots@ditmsecurity.com - console.ditmsecurity.com</span>
     </div>
   </footer>
 </body>
 </html>
+
+
