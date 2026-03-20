@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiTM — Detection in the Middle</title>
+    <title>DiTM - Detection in the Middle</title>
     <meta name="description" content="Browser-native threat detection. Stop ClickFix, credential phishing, AitM attacks, and browser-based social engineering before they execute.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,7 +74,7 @@
             z-index: 1;
         }
 
-        /* ── NAV ── */
+        /* NAV */
         nav {
             position: fixed;
             top: 0;
@@ -123,7 +123,7 @@
         }
         .nav-links a:hover { color: var(--text); }
 
-        /* ── HERO ── */
+        /* HERO */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -199,7 +199,7 @@
             transform: translateY(-1px);
         }
 
-        /* ── STATS BAR ── */
+        /* STATS BAR */
         .stats-bar {
             padding: 48px 0;
             border-top: 1px solid var(--border);
@@ -225,7 +225,7 @@
             letter-spacing: 1px;
         }
 
-        /* ── SECTIONS ── */
+        /* SECTIONS */
         section { padding: 100px 0; }
         .section-tag {
             font-family: var(--mono);
@@ -249,7 +249,7 @@
             line-height: 1.7;
         }
 
-        /* ── CLICKARMOR SECTION ── */
+        /* CLICKARMOR SECTION */
         .product-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -339,7 +339,7 @@
             flex-wrap: wrap;
         }
 
-        /* ── DETECTION LAYERS ── */
+        /* DETECTION LAYERS */
         .layers-list { display: grid; gap: 16px; }
         .layer-item {
             display: flex;
@@ -369,7 +369,7 @@
             line-height: 1.5;
         }
 
-        /* ── DITM ENTERPRISE ── */
+        /* DITM ENTERPRISE */
         .enterprise-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -412,7 +412,7 @@
             position: relative;
         }
         .ent-feature::before {
-            content: '→';
+            content: '->';
             position: absolute;
             left: 0;
             color: var(--accent);
@@ -451,7 +451,7 @@
             margin-top: 14px;
         }
 
-        /* ── RESEARCH ── */
+        /* RESEARCH */
         .research-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -476,7 +476,7 @@
             line-height: 1.5;
         }
 
-        /* ── FOOTER ── */
+        /* FOOTER */
         footer {
             padding: 48px 0;
             border-top: 1px solid var(--border);
@@ -502,7 +502,7 @@
         }
         .footer-links a:hover { color: var(--text); }
 
-        /* ── RESPONSIVE ── */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .hero h1 { font-size: 32px; }
             .product-card, .enterprise-card { padding: 28px; }
@@ -545,7 +545,7 @@
                 <div class="hero-tag">Detection in the Middle</div>
                 <h1>Browser attacks end <span>before they start.</span></h1>
                 <p class="hero-sub">
-                    Modern attacks happen inside the browser — ClickFix lures, credential phishing, AitM proxies, brand impersonation. Traditional security tools are blind to them. DiTM detects the attack at its source.
+                    Modern attacks happen inside the browser - ClickFix lures, credential phishing, AitM proxies, brand impersonation. Traditional security tools are blind to them. DiTM detects the attack at its source.
                 </p>
                 <div class="hero-buttons">
                     <a href="#clickarmor" class="btn btn-primary">Get ClickArmor (Free)</a>
@@ -562,7 +562,7 @@
             <div class="section-tag">Vision</div>
             <div class="section-title">Making Browser-Based Social Engineering Obsolete</div>
             <p class="section-desc">
-                Attackers increasingly exploit the browser itself — phishing proxies, fake verification flows,
+                Attackers increasingly exploit the browser itself - phishing proxies, fake verification flows,
                 clipboard hijacks, credential harvesting, and other social engineering techniques that bypass traditional defenses.
             </p>
             <p class="section-desc">
@@ -605,37 +605,37 @@
                 <div class="product-badge">Live on Chrome, Firefox, Brave, Edge & Opera</div>
                 <div class="product-name">ClickArmor</div>
                 <p class="product-sub">
-                    Browser extension that detects and blocks ClickFix attacks and credential phishing in real time — before malicious commands execute or credentials are stolen. Runs entirely on-device.
+                    Browser extension that detects and blocks ClickFix attacks and credential phishing in real time - before malicious commands execute or credentials are stolen. Detection executes locally in the browser, while rule updates can be shipped remotely as data.
                 </p>
 
                 <div class="feature-grid">
                     <div class="feature-item">
-                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-icon">01</div>
                         <div class="feature-title">ClickFix Detection</div>
                         <div class="feature-desc">Catches fake CAPTCHAs, fake browser updates, clipboard hijacks, and command execution lures across all known variants.</div>
                     </div>
                     <div class="feature-item">
-                        <div class="feature-icon">📋</div>
+                        <div class="feature-icon">02</div>
                         <div class="feature-title">Clipboard Interception</div>
                         <div class="feature-desc">Monitors clipboard writes and blocks malicious PowerShell, mshta, and encoded command payloads before the user can paste them.</div>
                     </div>
                     <div class="feature-item">
-                        <div class="feature-icon">🏦</div>
+                        <div class="feature-icon">03</div>
                         <div class="feature-title">Brand Impersonation Detection</div>
                         <div class="feature-desc">Detects login pages impersonating Microsoft, Google, Apple, Amazon, PayPal, Chase, Bank of America, Wells Fargo, Meta, and 100+ other brands on domains that don't belong to them.</div>
                     </div>
                     <div class="feature-item">
-                        <div class="feature-icon">📝</div>
+                        <div class="feature-icon">04</div>
                         <div class="feature-title">Form Analysis</div>
                         <div class="feature-desc">Scans for credential harvesting forms on unofficial domains, including phishing hosted on Google Docs, Google Sites, SharePoint, and other legitimate platforms.</div>
                     </div>
                     <div class="feature-item">
-                        <div class="feature-icon">🔒</div>
-                        <div class="feature-title">100% On-Device</div>
-                        <div class="feature-desc">No telemetry. No API calls. No cloud lookups. No data collection. All detection runs locally in your browser.</div>
+                        <div class="feature-icon">05</div>
+                        <div class="feature-title">Local-First Detection</div>
+                        <div class="feature-desc">Detection logic executes locally in the browser. Remote updates improve rules and coverage without turning the product into cloud-side verdicting.</div>
                     </div>
                     <div class="feature-item">
-                        <div class="feature-icon">🔬</div>
+                        <div class="feature-icon">06</div>
                         <div class="feature-title">Research-Validated</div>
                         <div class="feature-desc">Tested against 6,000+ ClickFix domains from ThreatFox and 25,000+ live phishing URLs from PhishTank. Continuously validated against active threat infrastructure.</div>
                     </div>
@@ -662,7 +662,7 @@
                     <div class="layer-num">01</div>
                     <div>
                         <div class="layer-title">Lure Phrase Analysis</div>
-                        <div class="layer-desc">Detects social engineering instructions — Win+R, Ctrl+V, "paste into PowerShell", multi-step command guides.</div>
+                        <div class="layer-desc">Detects social engineering instructions - Win+R, Ctrl+V, "paste into PowerShell", multi-step command guides.</div>
                     </div>
                 </div>
                 <div class="layer-item">
@@ -683,7 +683,7 @@
                     <div class="layer-num">04</div>
                     <div>
                         <div class="layer-title">Embedded Payload Detection</div>
-                        <div class="layer-desc">Finds malicious commands embedded in DOM elements — code blocks, hidden textareas, data attributes — with adjacent copy buttons.</div>
+                        <div class="layer-desc">Finds malicious commands embedded in DOM elements - code blocks, hidden textareas, data attributes - with adjacent copy buttons.</div>
                     </div>
                 </div>
                 <div class="layer-item">
@@ -718,14 +718,14 @@
                     <div class="layer-num">09</div>
                     <div>
                         <div class="layer-title">Brand Impersonation Detection</div>
-                        <div class="layer-desc">Identifies pages impersonating 100+ trusted brands — Microsoft, Google, Apple, Amazon, PayPal, Chase, Bank of America, Wells Fargo, Meta — on domains that don't belong to them.</div>
+                        <div class="layer-desc">Identifies pages impersonating 100+ trusted brands - Microsoft, Google, Apple, Amazon, PayPal, Chase, Bank of America, Wells Fargo, Meta - on domains that don't belong to them.</div>
                     </div>
                 </div>
                 <div class="layer-item">
                     <div class="layer-num">10</div>
                     <div>
                         <div class="layer-title">Platform Abuse Detection</div>
-                        <div class="layer-desc">Catches credential phishing hosted on Google Docs, Google Sites, Google Drawings, SharePoint, and OneDrive — detects cross-brand impersonation on legitimate hosting platforms.</div>
+                        <div class="layer-desc">Catches credential phishing hosted on Google Docs, Google Sites, Google Drawings, SharePoint, and OneDrive - detects cross-brand impersonation on legitimate hosting platforms.</div>
                     </div>
                 </div>
             </div>
@@ -740,7 +740,7 @@
                 <div class="coming-badge">Pilot Access Available</div>
                 <div class="product-name">DiTM Enterprise</div>
                 <p class="product-sub">
-                    Browser-native threat detection platform. ClickFix and credential phishing are just the beginning — DiTM expands detection to cover the full spectrum of browser-based attacks targeting enterprise identity and access.
+                    Browser-native threat detection platform. ClickFix and credential phishing are just the beginning - DiTM expands detection to cover the full spectrum of browser-based attacks targeting enterprise identity and access, while fitting into the customer's existing environment.
                 </p>
 
                 <div class="enterprise-features">
@@ -753,7 +753,7 @@
                     <div class="ent-feature">Malicious extension monitoring</div>
                     <div class="ent-feature">Session hijack / token replay detection</div>
                     <div class="ent-feature">Credential submission interception</div>
-                    <div class="ent-feature">Org-wide management console + SIEM integration</div>
+                    <div class="ent-feature">Thin control plane plus Splunk-first SIEM integration</div>
                 </div>
 
                 <div class="platform-info">
@@ -771,15 +771,19 @@
                             Fast browser enrollment with a company token tied to the org
                         </div>
                         <div class="platform-info-item">
-                            <strong>Live Visibility</strong>
-                            Detections flow directly into the company console in real time
+                            <strong>Existing Workflow</strong>
+                            Detections can feed directly into Splunk so analysts can investigate in the environment they already use
+                        </div>
+                        <div class="platform-info-item">
+                            <strong>Thin Control Plane</strong>
+                            The DiTM console stays focused on tokens, policies, and agent health instead of trying to replace a SIEM
                         </div>
                     </div>
                     <div class="install-row">
                         <a href="/enterprise/" class="btn btn-primary">View Enterprise Platform</a>
-                        <a href="https://console.ditmsecurity.com" class="btn btn-secondary">Open Armor Console</a>
+                        <a href="https://console.ditmsecurity.com" class="btn btn-secondary">Open Control Plane</a>
                     </div>
-                    <p class="platform-note">For pilots: admin logins, browser agent builds, and company enrollment tokens are issued directly through DiTM Security.</p>
+                    <p class="platform-note">For pilots: DiTM can manage enrollment, token provisioning, and policy changes directly while detections stream into the customer's existing environment.</p>
                 </div>
             </div>
         </div>
@@ -836,7 +840,7 @@
     <footer>
         <div class="container">
             <div class="footer-inner">
-                <div class="footer-left">DiTM — Detection in the Middle &copy; 2026</div>
+                <div class="footer-left">DiTM - Detection in the Middle &copy; 2026</div>
                 <div class="footer-links">
                     <a href="/blog/">Blog</a>
                     <a href="https://www.linkedin.com/company/ditm-security/" target="_blank">LinkedIn</a>
@@ -847,3 +851,5 @@
     </footer>
 </body>
 </html>
+
+
