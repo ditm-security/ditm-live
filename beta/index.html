@@ -331,6 +331,9 @@
       gap: 16px;
       margin: 54px 0 80px;
     }
+    .feedback-wrap {
+      margin: 0 0 80px;
+    }
     .signal-card {
       padding: 22px;
     }
@@ -432,7 +435,7 @@
           <div class="form-head">
             <span class="label">Request Form</span>
             <h2>Tell us about your environment.</h2>
-            <p>Send the basics and any SIEM request you want prioritized. This routes to DiTM directly for beta review.</p>
+            <p>Send the basics and any SIEM request you want prioritized. This submits directly into the DiTM beta intake backend for review.</p>
           </div>
           <form id="betaForm">
             <div class="field-grid">
@@ -476,7 +479,7 @@
               <button type="submit" class="btn btn-primary">Request Beta Access</button>
               <a class="btn btn-secondary" href="/enterprise/">Back to Enterprise</a>
             </div>
-            <div class="form-note">Submitting opens a pre-filled email to pilots@ditmsecurity.com so the request is reviewable immediately.</div>
+            <div class="form-note">Submissions go directly into the DiTM beta request queue.</div>
             <div class="status-note" id="statusNote"></div>
           </form>
         </section>
@@ -497,6 +500,56 @@
         <p>Use the SIEM request field to tell us exactly what integration your environment needs prioritized next.</p>
       </article>
     </section>
+
+    <section class="container feedback-wrap">
+      <section class="form-shell">
+        <div class="form-head">
+          <span class="label">Contact / Feedback</span>
+          <h2>Send product feedback or integration requests.</h2>
+          <p>Use this separate form for general product feedback, questions, deployment notes, or SIEM requests that are not a beta access request.</p>
+        </div>
+        <form id="feedbackForm">
+          <div class="field-grid">
+            <label>
+              Work email
+              <input type="email" id="feedbackEmail" name="feedback_email" placeholder="you@company.com" required>
+            </label>
+            <label>
+              Company / team
+              <input type="text" id="feedbackCompany" name="feedback_company" placeholder="Company or team name">
+            </label>
+          </div>
+
+          <div class="field-grid">
+            <label>
+              Topic
+              <select id="feedbackTopic" name="feedback_topic" required>
+                <option value="">Select topic</option>
+                <option value="product_feedback">Product feedback</option>
+                <option value="siem_request">SIEM integration request</option>
+                <option value="deployment_question">Deployment question</option>
+                <option value="general_contact">General contact</option>
+              </select>
+            </label>
+            <label>
+              Optional SIEM request
+              <input type="text" id="feedbackSiemRequest" name="feedback_siem_request" placeholder="Splunk, Elastic, Sentinel, QRadar, etc.">
+            </label>
+          </div>
+
+          <label>
+            Message
+            <textarea id="feedbackMessage" name="feedback_message" placeholder="What feedback, request, or question do you want to send?" required></textarea>
+          </label>
+
+          <div class="submit-row">
+            <button type="submit" class="btn btn-primary">Send Feedback</button>
+          </div>
+          <div class="form-note">This is separate from beta access and goes into the DiTM contact/feedback queue.</div>
+          <div class="status-note" id="feedbackStatusNote"></div>
+        </form>
+      </section>
+    </section>
   </main>
 
   <footer>
@@ -507,10 +560,16 @@
   </footer>
 
   <script>
+    const BETA_BACKEND = {
+      url: "https://zujbvoqvhyocojrpcyyl.supabase.co",
+      key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp1amJ2b3F2aHlvY29qcnBjeXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NDEzNzIsImV4cCI6MjA4OTExNzM3Mn0.dXPedSQxdAhPthxF32jPlr3Md86CP0RbJeG29_aK1xs"
+    };
     const form = document.getElementById("betaForm");
     const statusNote = document.getElementById("statusNote");
+    const feedbackForm = document.getElementById("feedbackForm");
+    const feedbackStatusNote = document.getElementById("feedbackStatusNote");
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       const email = document.getElementById("email").value.trim();
@@ -525,23 +584,99 @@
         return;
       }
 
-      const subject = `DiTM Armor beta request - ${company || email}`;
-      const body = [
-        "DiTM Armor beta request",
-        "",
-        `Email: ${email}`,
-        `Company / team: ${company || "(not provided)"}`,
-        `Org size: ${orgSize}`,
-        `Industry: ${industry || "(not provided)"}`,
-        `Requested SIEM integration: ${siemRequest || "(not provided)"}`,
-        "",
-        "Feedback / notes:",
-        feedback || "(none provided)"
-      ].join("\n");
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
+      statusNote.textContent = "Submitting beta request...";
 
-      const href = `mailto:pilots@ditmsecurity.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = href;
-      statusNote.textContent = "If your mail client did not open, copy the details and send them to pilots@ditmsecurity.com.";
+      const payload = {
+        email,
+        company: company || null,
+        org_size: orgSize,
+        industry: industry || null,
+        siem_request: siemRequest || null,
+        feedback: feedback || null,
+        source_path: "/beta/"
+      };
+
+      try {
+        const response = await fetch(`${BETA_BACKEND.url}/rest/v1/beta_requests`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": BETA_BACKEND.key,
+            "Authorization": `Bearer ${BETA_BACKEND.key}`,
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error("submit_failed");
+        }
+
+        form.reset();
+        statusNote.textContent = "Beta request submitted. We'll review it and follow up from pilots@ditmsecurity.com.";
+      } catch (error) {
+        statusNote.textContent = "Could not submit the request right now. Email pilots@ditmsecurity.com with the same details.";
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Request Beta Access";
+      }
+    });
+
+    feedbackForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const email = document.getElementById("feedbackEmail").value.trim();
+      const company = document.getElementById("feedbackCompany").value.trim();
+      const topic = document.getElementById("feedbackTopic").value.trim();
+      const siemRequest = document.getElementById("feedbackSiemRequest").value.trim();
+      const message = document.getElementById("feedbackMessage").value.trim();
+
+      if (!email || !topic || !message) {
+        feedbackStatusNote.textContent = "Work email, topic, and message are required.";
+        return;
+      }
+
+      const submitButton = feedbackForm.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
+      feedbackStatusNote.textContent = "Submitting feedback...";
+
+      const payload = {
+        email,
+        company: company || null,
+        topic,
+        siem_request: siemRequest || null,
+        message,
+        source_path: "/beta/"
+      };
+
+      try {
+        const response = await fetch(`${BETA_BACKEND.url}/rest/v1/contact_feedback`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": BETA_BACKEND.key,
+            "Authorization": `Bearer ${BETA_BACKEND.key}`,
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error("submit_failed");
+        }
+
+        feedbackForm.reset();
+        feedbackStatusNote.textContent = "Feedback submitted. We'll review it and follow up if needed.";
+      } catch (error) {
+        feedbackStatusNote.textContent = "Could not submit feedback right now. Email pilots@ditmsecurity.com with the same details.";
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send Feedback";
+      }
     });
   </script>
 </body>
