@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DiTM Armor Beta</title>
+  <meta name="description" content="Request beta access to DiTM Armor enterprise browser defense.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #06060b;
+      --bg-2: #0b0b12;
+      --panel: rgba(14, 15, 24, 0.92);
+      --panel-2: rgba(20, 22, 35, 0.96);
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,64,111,0.28);
+      --text: #f3f3fa;
+      --text-mid: #b4b4ca;
+      --text-dim: #7f829d;
+      --accent: #ff3366;
+      --accent-soft: rgba(255, 51, 102, 0.12);
+      --safe: #30f2b1;
+      --mono: "JetBrains Mono", monospace;
+      --sans: "Outfit", sans-serif;
+      --shadow: 0 30px 80px rgba(0,0,0,0.45);
+    }
+    body {
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 51, 102, 0.13), transparent 30%),
+        radial-gradient(circle at top right, rgba(52, 112, 255, 0.10), transparent 30%),
+        linear-gradient(180deg, #06060b 0%, #090912 48%, #050509 100%);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 100%);
+      z-index: 0;
+    }
+    .container {
+      width: min(1120px, calc(100vw - 40px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(6, 6, 11, 0.78);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-row {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .brand-text strong {
+      display: block;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+    .brand-text span {
+      font-family: var(--mono);
+      color: var(--text-dim);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .hero {
+      padding: 76px 0 34px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      gap: 34px;
+      align-items: start;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+    }
+    h1 {
+      font-size: clamp(40px, 5.4vw, 68px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-bottom: 18px;
+      max-width: 720px;
+    }
+    h1 span { color: var(--accent); }
+    .hero-copy {
+      max-width: 640px;
+      color: var(--text-mid);
+      font-size: 18px;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+    .chip-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+    .stack-card, .form-shell, .signal-card {
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17,18,29,0.96), rgba(10,11,19,0.96));
+      box-shadow: var(--shadow);
+    }
+    .stack-card {
+      padding: 22px;
+    }
+    .stack-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+    .stack-card p {
+      color: var(--text-mid);
+      margin-bottom: 16px;
+    }
+    .stack-card ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      color: var(--text-mid);
+      font-size: 14px;
+    }
+    .stack-card li::before {
+      content: "+";
+      color: var(--accent);
+      margin-right: 10px;
+      font-family: var(--mono);
+    }
+    .form-shell {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .form-shell::before {
+      content: "";
+      position: absolute;
+      inset: -20% auto auto 55%;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(255,51,102,0.24), transparent 70%);
+      pointer-events: none;
+    }
+    .form-head {
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .form-head .label {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .form-head h2 {
+      font-size: 34px;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+    .form-head p {
+      color: var(--text-mid);
+      max-width: 560px;
+    }
+    form {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 16px;
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+    input, select, textarea {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      padding: 14px 16px;
+      font-family: var(--sans);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(255, 92, 124, 0.55);
+      background: rgba(255,255,255,0.05);
+    }
+    textarea {
+      min-height: 132px;
+      resize: vertical;
+    }
+    .submit-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 6px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, #ff3366 0%, #ff5c7c 100%);
+      border: 1px solid rgba(255, 92, 124, 0.65);
+      box-shadow: 0 14px 32px rgba(255, 51, 102, 0.24);
+    }
+    .btn-secondary {
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+    .form-note, .status-note {
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+    .status-note {
+      min-height: 20px;
+    }
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 54px 0 80px;
+    }
+    .signal-card {
+      padding: 22px;
+    }
+    .signal-card strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+    .signal-card p {
+      color: var(--text-mid);
+      font-size: 14px;
+    }
+    footer {
+      padding: 32px 0 44px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+    @media (max-width: 940px) {
+      .hero-grid, .signal-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .field-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .container { width: min(100vw - 28px, 1120px); }
+      .hero { padding-top: 56px; }
+      .form-shell, .stack-card, .signal-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-row">
+      <a class="brand" href="/enterprise/">
+        <span class="brand-mark">
+          <svg viewBox="0 0 32 32" width="18" height="18" fill="none" aria-hidden="true">
+            <path d="M16 3L27 9.5V22.5L16 29L5 22.5V9.5L16 3Z" stroke="#ff5c7c" stroke-width="1.4"/>
+            <circle cx="16" cy="16" r="3" fill="#ff5c7c"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>DiTM Armor</strong>
+          <span>Beta Access</span>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a href="/">Main Site</a>
+        <a href="/enterprise/">Enterprise</a>
+        <a href="https://console.ditmsecurity.com">Console</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Limited Beta Access</div>
+          <h1>Request <span>beta access</span> for DiTM Armor.</h1>
+          <p class="hero-copy">
+            DiTM Armor is opening limited enterprise beta testing for teams that want browser-native detection for ClickFix, credential phishing, brand impersonation, and malicious social-engineering workflows without forcing a new analyst workflow.
+          </p>
+          <div class="chip-row">
+            <span class="chip">Splunk integrated</span>
+            <span class="chip">Elastic requests welcome</span>
+            <span class="chip">Thin control plane</span>
+            <span class="chip">Local browser blocking</span>
+          </div>
+          <div class="stack">
+            <article class="stack-card">
+              <h3>What beta teams get</h3>
+              <ul>
+                <li>Enterprise browser agent builds</li>
+                <li>Enrollment and policy support</li>
+                <li>SIEM-first workflow through existing environments</li>
+                <li>Fast feedback loop on requested integrations</li>
+              </ul>
+            </article>
+            <article class="stack-card">
+              <h3>Best fit right now</h3>
+              <p>Security teams, SOC managers, MSSPs, and organizations that want early browser-layer signal without taking on another full console.</p>
+              <ul>
+                <li>ClickFix and clipboard-lure exposure</li>
+                <li>Credential phishing and impersonation risk</li>
+                <li>Need for faster SIEM-side correlation</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <section class="form-shell">
+          <div class="form-head">
+            <span class="label">Request Form</span>
+            <h2>Tell us about your environment.</h2>
+            <p>Send the basics and any SIEM request you want prioritized. This routes to DiTM directly for beta review.</p>
+          </div>
+          <form id="betaForm">
+            <div class="field-grid">
+              <label>
+                Work email
+                <input type="email" id="email" name="email" placeholder="you@company.com" required>
+              </label>
+              <label>
+                Company / team
+                <input type="text" id="company" name="company" placeholder="Company or team name">
+              </label>
+            </div>
+
+            <div class="field-grid">
+              <label>
+                Org size
+                <select id="orgSize" name="org_size" required>
+                  <option value="">Select org size</option>
+                  <option value="<10">&lt;10</option>
+                  <option value="11-100">11-100</option>
+                  <option value="101-5000">101-5000</option>
+                </select>
+              </label>
+              <label>
+                Industry
+                <input type="text" id="industry" name="industry" placeholder="Education, SaaS, Healthcare, MSSP, etc.">
+              </label>
+            </div>
+
+            <label>
+              Optional SIEM integration request
+              <input type="text" id="siemRequest" name="siem_request" placeholder="Elastic, Sentinel, QRadar, custom webhook, etc.">
+            </label>
+
+            <label>
+              Feedback / notes
+              <textarea id="feedback" name="feedback" placeholder="What problem are you trying to solve, what attack patterns are you seeing, or what should we know about your environment?"></textarea>
+            </label>
+
+            <div class="submit-row">
+              <button type="submit" class="btn btn-primary">Request Beta Access</button>
+              <a class="btn btn-secondary" href="/enterprise/">Back to Enterprise</a>
+            </div>
+            <div class="form-note">Submitting opens a pre-filled email to pilots@ditmsecurity.com so the request is reviewable immediately.</div>
+            <div class="status-note" id="statusNote"></div>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="container signal-grid">
+      <article class="signal-card">
+        <strong>Browser-native detections</strong>
+        <p>ClickFix detection, credential phishing detection, and brand impersonation signal where the attack flow actually lands.</p>
+      </article>
+      <article class="signal-card">
+        <strong>Existing workflow fit</strong>
+        <p>DiTM keeps the control plane lightweight while detections are designed to land in the SIEM stack security teams already use.</p>
+      </article>
+      <article class="signal-card">
+        <strong>Fast beta feedback</strong>
+        <p>Use the SIEM request field to tell us exactly what integration your environment needs prioritized next.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-line">
+      <span>DiTM Security - Browser-native enterprise defense</span>
+      <span>pilots@ditmsecurity.com - console.ditmsecurity.com</span>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById("betaForm");
+    const statusNote = document.getElementById("statusNote");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const company = document.getElementById("company").value.trim();
+      const orgSize = document.getElementById("orgSize").value.trim();
+      const industry = document.getElementById("industry").value.trim();
+      const siemRequest = document.getElementById("siemRequest").value.trim();
+      const feedback = document.getElementById("feedback").value.trim();
+
+      if (!email || !orgSize) {
+        statusNote.textContent = "Work email and org size are required.";
+        return;
+      }
+
+      const subject = `DiTM Armor beta request - ${company || email}`;
+      const body = [
+        "DiTM Armor beta request",
+        "",
+        `Email: ${email}`,
+        `Company / team: ${company || "(not provided)"}`,
+        `Org size: ${orgSize}`,
+        `Industry: ${industry || "(not provided)"}`,
+        `Requested SIEM integration: ${siemRequest || "(not provided)"}`,
+        "",
+        "Feedback / notes:",
+        feedback || "(none provided)"
+      ].join("\n");
+
+      const href = `mailto:pilots@ditmsecurity.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = href;
+      statusNote.textContent = "If your mail client did not open, copy the details and send them to pilots@ditmsecurity.com.";
+    });
+  </script>
+</body>
+</html>
