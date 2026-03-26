@@ -50,11 +50,13 @@
       z-index: 0;
     }
     .container {
-      width: min(1120px, calc(100vw - 40px));
+      width: min(1160px, calc(100vw - 48px));
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
+
+    /* NAV */
     nav {
       position: sticky;
       top: 0;
@@ -87,11 +89,7 @@
       place-items: center;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
     }
-    .brand-text strong {
-      display: block;
-      font-size: 17px;
-      letter-spacing: -0.02em;
-    }
+    .brand-text strong { display: block; font-size: 17px; letter-spacing: -0.02em; }
     .brand-text span {
       font-family: var(--mono);
       color: var(--text-dim);
@@ -99,12 +97,7 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
     }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
     .nav-links a {
       text-decoration: none;
       color: var(--text-mid);
@@ -112,14 +105,21 @@
       transition: color 0.2s ease;
     }
     .nav-links a:hover { color: var(--text); }
-    .hero {
-      padding: 76px 0 34px;
-    }
+
+    /* HERO — two columns, both fill to same height */
+    .hero { padding: 72px 0 60px; }
     .hero-grid {
       display: grid;
-      grid-template-columns: 1fr 0.95fr;
-      gap: 34px;
-      align-items: start;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: stretch; /* both columns same height */
+    }
+
+    /* LEFT COLUMN */
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
     .eyebrow {
       display: inline-flex;
@@ -139,31 +139,29 @@
       background: currentColor;
     }
     h1 {
-      font-size: clamp(40px, 5.4vw, 68px);
+      font-size: clamp(36px, 4.2vw, 58px);
       line-height: 0.98;
       letter-spacing: -0.05em;
       margin-bottom: 18px;
-      max-width: 720px;
     }
     h1 span { color: var(--accent); }
     .hero-copy {
-      max-width: 640px;
       color: var(--text-mid);
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.75;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
     .chip-row {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
     .chip {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 12px;
+      padding: 8px 12px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
@@ -173,32 +171,36 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
     }
+
+    /* stack cards fill remaining height */
     .stack {
       display: grid;
       gap: 14px;
+      flex: 1;
     }
-    .stack-card, .form-shell, .signal-card {
-      border-radius: 24px;
+    .stack-card {
+      border-radius: 20px;
       border: 1px solid var(--border);
       background: linear-gradient(180deg, rgba(17,18,29,0.96), rgba(10,11,19,0.96));
       box-shadow: var(--shadow);
-    }
-    .stack-card {
-      padding: 22px;
+      padding: 22px 24px;
+      flex: 1;
     }
     .stack-card h3 {
-      font-size: 20px;
-      margin-bottom: 12px;
+      font-size: 17px;
+      margin-bottom: 10px;
       letter-spacing: -0.03em;
     }
     .stack-card p {
       color: var(--text-mid);
-      margin-bottom: 16px;
+      font-size: 14px;
+      margin-bottom: 14px;
+      line-height: 1.6;
     }
     .stack-card ul {
       list-style: none;
       display: grid;
-      gap: 10px;
+      gap: 9px;
       color: var(--text-mid);
       font-size: 14px;
     }
@@ -208,10 +210,50 @@
       margin-right: 10px;
       font-family: var(--mono);
     }
+
+    /* stat row inside left col */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-box strong {
+      display: block;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--accent);
+    }
+    .stat-box span {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.4;
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* RIGHT COLUMN — form fills full height */
     .form-shell {
-      padding: 28px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17,18,29,0.96), rgba(10,11,19,0.96));
+      box-shadow: var(--shadow);
+      padding: 32px;
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
     .form-shell::before {
       content: "";
@@ -223,7 +265,7 @@
       pointer-events: none;
     }
     .form-head {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       position: relative;
       z-index: 1;
     }
@@ -233,45 +275,38 @@
       font-size: 11px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: block;
     }
     .form-head h2 {
-      font-size: 34px;
-      line-height: 1.02;
+      font-size: 28px;
+      line-height: 1.05;
       letter-spacing: -0.04em;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-    .form-head p {
-      color: var(--text-mid);
-      max-width: 560px;
-    }
+    .form-head p { color: var(--text-mid); font-size: 14px; line-height: 1.65; }
     form {
       position: relative;
       z-index: 1;
       display: grid;
-      gap: 16px;
+      gap: 14px;
+      flex: 1;
     }
     .field-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
+      gap: 14px;
     }
-    label {
-      display: grid;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--text-mid);
-    }
+    label { display: grid; gap: 7px; font-size: 13px; color: var(--text-mid); }
     input, select, textarea {
       width: 100%;
-      border-radius: 16px;
+      border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.03);
       color: var(--text);
-      padding: 14px 16px;
+      padding: 13px 15px;
       font-family: var(--sans);
-      font-size: 15px;
+      font-size: 14px;
       outline: none;
       transition: border-color 0.2s ease, background 0.2s ease;
     }
@@ -279,16 +314,13 @@
       border-color: rgba(255, 92, 124, 0.55);
       background: rgba(255,255,255,0.05);
     }
-    textarea {
-      min-height: 132px;
-      resize: vertical;
-    }
+    textarea { min-height: 110px; resize: vertical; }
     .submit-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 14px;
-      margin-top: 6px;
+      gap: 12px;
+      margin-top: 4px;
     }
     .btn {
       display: inline-flex;
@@ -296,13 +328,13 @@
       justify-content: center;
       gap: 10px;
       border-radius: 999px;
-      padding: 14px 22px;
+      padding: 13px 22px;
       font-family: var(--mono);
       font-size: 12px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       text-decoration: none;
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease;
       cursor: pointer;
       border: 1px solid transparent;
     }
@@ -318,35 +350,101 @@
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.02);
     }
-    .form-note, .status-note {
+    .form-note, .status-note { color: var(--text-dim); font-size: 12px; }
+    .status-note { min-height: 18px; }
+
+    /* SIGNAL CARDS — 3 col equal */
+    .signal-section { padding: 0 0 72px; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
       color: var(--text-dim);
-      font-size: 13px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .status-note {
-      min-height: 20px;
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
     .signal-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin: 54px 0 80px;
-    }
-    .feedback-wrap {
-      margin: 0 0 80px;
     }
     .signal-card {
-      padding: 22px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17,18,29,0.96), rgba(10,11,19,0.96));
+      box-shadow: var(--shadow);
+      padding: 24px;
     }
     .signal-card strong {
       display: block;
-      font-size: 20px;
+      font-size: 17px;
       margin-bottom: 10px;
       letter-spacing: -0.03em;
     }
-    .signal-card p {
-      color: var(--text-mid);
-      font-size: 14px;
+    .signal-card p { color: var(--text-mid); font-size: 14px; line-height: 1.6; }
+
+    /* FEEDBACK SECTION */
+    .feedback-section { padding: 0 0 80px; }
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
     }
+    .feedback-left {
+      padding-top: 8px;
+    }
+    .feedback-left h2 {
+      font-size: clamp(28px, 3vw, 40px);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+    .feedback-left h2 span { color: var(--accent); }
+    .feedback-left p {
+      color: var(--text-mid);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .contact-list {
+      display: grid;
+      gap: 12px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+    .contact-item-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(255,51,102,0.2);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+    .contact-item-text strong { display: block; font-size: 13px; color: var(--text); }
+    .contact-item-text span { font-size: 12px; color: var(--text-dim); }
+
     footer {
       padding: 32px 0 44px;
       border-top: 1px solid rgba(255,255,255,0.06);
@@ -359,15 +457,16 @@
       color: var(--text-dim);
       font-size: 13px;
     }
-    @media (max-width: 940px) {
-      .hero-grid, .signal-grid { grid-template-columns: 1fr; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .signal-grid, .feedback-grid { grid-template-columns: 1fr; }
+      .stat-row { grid-template-columns: repeat(3, 1fr); }
     }
-    @media (max-width: 720px) {
+    @media (max-width: 600px) {
       .field-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
-      .container { width: min(100vw - 28px, 1120px); }
-      .hero { padding-top: 56px; }
-      .form-shell, .stack-card, .signal-card { padding: 20px; }
+      .stat-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .hero { padding: 48px 0 40px; }
     }
   </style>
 </head>
@@ -395,42 +494,66 @@
   </nav>
 
   <main>
+    <!-- HERO: two equal columns -->
     <section class="hero">
       <div class="container hero-grid">
-        <div>
+
+        <!-- LEFT -->
+        <div class="hero-left">
           <div class="eyebrow">Limited Beta Access</div>
           <h1>Request <span>beta access</span> for DiTM Armor.</h1>
           <p class="hero-copy">
-            DiTM Armor is opening limited enterprise beta testing for teams that want browser-native detection for ClickFix, credential phishing, brand impersonation, and malicious social-engineering workflows without forcing a new analyst workflow.
+            DiTM Armor is opening limited enterprise beta testing for teams that want browser-native social engineering detection without forcing a new analyst workflow or console.
           </p>
+
           <div class="chip-row">
             <span class="chip">Splunk integrated</span>
-            <span class="chip">Elastic requests welcome</span>
+            <span class="chip">Elastic welcome</span>
             <span class="chip">Thin control plane</span>
-            <span class="chip">Local browser blocking</span>
+            <span class="chip">Local blocking</span>
           </div>
+
+          <!-- Stats row -->
+          <div class="stat-row">
+            <div class="stat-box">
+              <strong>6K+</strong>
+              <span>ClickFix domains covered</span>
+            </div>
+            <div class="stat-box">
+              <strong>25K+</strong>
+              <span>Phishing URLs validated</span>
+            </div>
+            <div class="stat-box">
+              <strong>100+</strong>
+              <span>Brands covered</span>
+            </div>
+          </div>
+
           <div class="stack">
             <article class="stack-card">
               <h3>What beta teams get</h3>
               <ul>
-                <li>Enterprise browser agent builds</li>
-                <li>Enrollment and policy support</li>
-                <li>SIEM-first workflow through existing environments</li>
-                <li>Fast feedback loop on requested integrations</li>
+                <li>Enterprise browser agent builds for Chrome, Firefox, Edge, Brave &amp; Opera</li>
+                <li>Enrollment and policy configuration support</li>
+                <li>SIEM-first workflow — detections land in your existing environment</li>
+                <li>Fast feedback loop on requested integrations and coverage gaps</li>
+                <li>Direct access during active development cycle</li>
               </ul>
             </article>
             <article class="stack-card">
               <h3>Best fit right now</h3>
-              <p>Security teams, SOC managers, MSSPs, and organizations that want early browser-layer signal without taking on another full console.</p>
+              <p>Security teams, SOC managers, MSSPs, and organizations that want early browser-layer signal without taking on another full console to manage.</p>
               <ul>
                 <li>ClickFix and clipboard-lure exposure</li>
-                <li>Credential phishing and impersonation risk</li>
-                <li>Need for faster SIEM-side correlation</li>
+                <li>Credential phishing and brand impersonation risk</li>
+                <li>Need for faster SIEM-side browser correlation</li>
+                <li>Teams already running Splunk, Elastic, or Sentinel</li>
               </ul>
             </article>
           </div>
         </div>
 
+        <!-- RIGHT: form -->
         <section class="form-shell">
           <div class="form-head">
             <span class="label">Request Form</span>
@@ -448,33 +571,30 @@
                 <input type="text" id="company" name="company" placeholder="Company or team name">
               </label>
             </div>
-
             <div class="field-grid">
               <label>
                 Org size
                 <select id="orgSize" name="org_size" required>
                   <option value="">Select org size</option>
                   <option value="<10">&lt;10</option>
-                  <option value="11-100">11-100</option>
-                  <option value="101-5000">101-5000</option>
+                  <option value="11-100">11–100</option>
+                  <option value="101-5000">101–5000</option>
+                  <option value="5000+">5000+</option>
                 </select>
               </label>
               <label>
                 Industry
-                <input type="text" id="industry" name="industry" placeholder="Education, SaaS, Healthcare, MSSP, etc.">
+                <input type="text" id="industry" name="industry" placeholder="Education, SaaS, Healthcare, MSSP…">
               </label>
             </div>
-
             <label>
-              Optional SIEM integration request
-              <input type="text" id="siemRequest" name="siem_request" placeholder="Elastic, Sentinel, QRadar, custom webhook, etc.">
+              Current SIEM / security stack
+              <input type="text" id="siemRequest" name="siem_request" placeholder="Splunk, Elastic, Sentinel, QRadar, custom webhook…">
             </label>
-
             <label>
               Feedback / notes
               <textarea id="feedback" name="feedback" placeholder="What problem are you trying to solve, what attack patterns are you seeing, or what should we know about your environment?"></textarea>
             </label>
-
             <div class="submit-row">
               <button type="submit" class="btn btn-primary">Request Beta Access</button>
               <a class="btn btn-secondary" href="/enterprise/">Back to Enterprise</a>
@@ -483,79 +603,117 @@
             <div class="status-note" id="statusNote"></div>
           </form>
         </section>
+
       </div>
     </section>
 
-    <section class="container signal-grid">
-      <article class="signal-card">
-        <strong>Browser-native detections</strong>
-        <p>ClickFix detection, credential phishing detection, and brand impersonation signal where the attack flow actually lands.</p>
-      </article>
-      <article class="signal-card">
-        <strong>Existing workflow fit</strong>
-        <p>DiTM keeps the control plane lightweight while detections are designed to land in the SIEM stack security teams already use.</p>
-      </article>
-      <article class="signal-card">
-        <strong>Fast beta feedback</strong>
-        <p>Use the SIEM request field to tell us exactly what integration your environment needs prioritized next.</p>
-      </article>
+    <!-- SIGNAL CARDS -->
+    <section class="signal-section">
+      <div class="container">
+        <div class="section-label">What you get</div>
+        <div class="signal-grid">
+          <article class="signal-card">
+            <strong>Browser-native detections</strong>
+            <p>ClickFix, credential phishing, and brand impersonation signal detected where the attack flow actually lands — inside the browser tab.</p>
+          </article>
+          <article class="signal-card">
+            <strong>Existing workflow fit</strong>
+            <p>DiTM keeps the control plane lightweight. Detections land in the SIEM stack your security team already uses — no new console to own.</p>
+          </article>
+          <article class="signal-card">
+            <strong>Fast beta feedback loop</strong>
+            <p>Use the SIEM field to tell us exactly what integration your environment needs prioritized. Active development, fast turnaround.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <section class="container feedback-wrap">
-      <section class="form-shell">
-        <div class="form-head">
-          <span class="label">Contact / Feedback</span>
-          <h2>Send product feedback or integration requests.</h2>
-          <p>Use this separate form for general product feedback, questions, deployment notes, or SIEM requests that are not a beta access request.</p>
+    <!-- FEEDBACK SECTION: two col, left is context, right is form -->
+    <section class="feedback-section">
+      <div class="container feedback-grid">
+
+        <div class="feedback-left">
+          <div class="eyebrow">Contact / Feedback</div>
+          <h2>Questions, feedback, or <span>integration requests</span>?</h2>
+          <p>Use this form for general product feedback, deployment questions, SIEM requests, or anything not tied to a beta access request. Goes directly to the DiTM team.</p>
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="contact-item-icon">@</div>
+              <div class="contact-item-text">
+                <strong>Direct email</strong>
+                <span>pilots@ditmsecurity.com</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">⌘</div>
+              <div class="contact-item-text">
+                <strong>Enterprise console</strong>
+                <span>console.ditmsecurity.com</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">#</div>
+              <div class="contact-item-text">
+                <strong>Response time</strong>
+                <span>Usually within 24–48 hours</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <form id="feedbackForm">
-          <div class="field-grid">
-            <label>
-              Work email
-              <input type="email" id="feedbackEmail" name="feedback_email" placeholder="you@company.com" required>
-            </label>
-            <label>
-              Company / team
-              <input type="text" id="feedbackCompany" name="feedback_company" placeholder="Company or team name">
-            </label>
-          </div>
 
-          <div class="field-grid">
-            <label>
-              Topic
-              <select id="feedbackTopic" name="feedback_topic" required>
-                <option value="">Select topic</option>
-                <option value="product_feedback">Product feedback</option>
-                <option value="siem_request">SIEM integration request</option>
-                <option value="deployment_question">Deployment question</option>
-                <option value="general_contact">General contact</option>
-              </select>
-            </label>
-            <label>
-              Optional SIEM request
-              <input type="text" id="feedbackSiemRequest" name="feedback_siem_request" placeholder="Splunk, Elastic, Sentinel, QRadar, etc.">
-            </label>
+        <section class="form-shell">
+          <div class="form-head">
+            <span class="label">Feedback Form</span>
+            <h2>Send us a message.</h2>
+            <p>Product feedback, integration requests, deployment questions, or general contact — all go here.</p>
           </div>
+          <form id="feedbackForm">
+            <div class="field-grid">
+              <label>
+                Work email
+                <input type="email" id="feedbackEmail" name="feedback_email" placeholder="you@company.com" required>
+              </label>
+              <label>
+                Company / team
+                <input type="text" id="feedbackCompany" name="feedback_company" placeholder="Company or team name">
+              </label>
+            </div>
+            <div class="field-grid">
+              <label>
+                Topic
+                <select id="feedbackTopic" name="feedback_topic" required>
+                  <option value="">Select topic</option>
+                  <option value="product_feedback">Product feedback</option>
+                  <option value="siem_request">SIEM integration request</option>
+                  <option value="deployment_question">Deployment question</option>
+                  <option value="general_contact">General contact</option>
+                </select>
+              </label>
+              <label>
+                SIEM / stack
+                <input type="text" id="feedbackSiemRequest" name="feedback_siem_request" placeholder="Splunk, Elastic, Sentinel, QRadar…">
+              </label>
+            </div>
+            <label>
+              Message
+              <textarea id="feedbackMessage" name="feedback_message" placeholder="What feedback, request, or question do you want to send?" required></textarea>
+            </label>
+            <div class="submit-row">
+              <button type="submit" class="btn btn-primary">Send Message</button>
+            </div>
+            <div class="form-note">Separate from beta access — goes into the DiTM contact queue.</div>
+            <div class="status-note" id="feedbackStatusNote"></div>
+          </form>
+        </section>
 
-          <label>
-            Message
-            <textarea id="feedbackMessage" name="feedback_message" placeholder="What feedback, request, or question do you want to send?" required></textarea>
-          </label>
-
-          <div class="submit-row">
-            <button type="submit" class="btn btn-primary">Send Feedback</button>
-          </div>
-          <div class="form-note">This is separate from beta access and goes into the DiTM contact/feedback queue.</div>
-          <div class="status-note" id="feedbackStatusNote"></div>
-        </form>
-      </section>
+      </div>
     </section>
   </main>
 
   <footer>
     <div class="container footer-line">
-      <span>DiTM Security - Browser-native enterprise defense</span>
-      <span>pilots@ditmsecurity.com - console.ditmsecurity.com</span>
+      <span>DiTM Security — Browser-native social engineering detection</span>
+      <span>pilots@ditmsecurity.com · console.ditmsecurity.com</span>
     </div>
   </footer>
 
@@ -564,119 +722,60 @@
       url: "https://zujbvoqvhyocojrpcyyl.supabase.co",
       key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp1amJ2b3F2aHlvY29qcnBjeXlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NDEzNzIsImV4cCI6MjA4OTExNzM3Mn0.dXPedSQxdAhPthxF32jPlr3Md86CP0RbJeG29_aK1xs"
     };
-    const form = document.getElementById("betaForm");
-    const statusNote = document.getElementById("statusNote");
-    const feedbackForm = document.getElementById("feedbackForm");
-    const feedbackStatusNote = document.getElementById("feedbackStatusNote");
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const email = document.getElementById("email").value.trim();
-      const company = document.getElementById("company").value.trim();
-      const orgSize = document.getElementById("orgSize").value.trim();
-      const industry = document.getElementById("industry").value.trim();
-      const siemRequest = document.getElementById("siemRequest").value.trim();
-      const feedback = document.getElementById("feedback").value.trim();
-
-      if (!email || !orgSize) {
-        statusNote.textContent = "Work email and org size are required.";
-        return;
-      }
-
-      const submitButton = form.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.textContent = "Submitting...";
-      statusNote.textContent = "Submitting beta request...";
-
+    document.getElementById("betaForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const statusNote = document.getElementById("statusNote");
+      const btn = e.target.querySelector('button[type="submit"]');
       const payload = {
-        email,
-        company: company || null,
-        org_size: orgSize,
-        industry: industry || null,
-        siem_request: siemRequest || null,
-        feedback: feedback || null,
+        email: document.getElementById("email").value.trim(),
+        company: document.getElementById("company").value.trim() || null,
+        org_size: document.getElementById("orgSize").value.trim(),
+        industry: document.getElementById("industry").value.trim() || null,
+        siem_request: document.getElementById("siemRequest").value.trim() || null,
+        feedback: document.getElementById("feedback").value.trim() || null,
         source_path: "/beta/"
       };
-
+      if (!payload.email || !payload.org_size) { statusNote.textContent = "Work email and org size are required."; return; }
+      btn.disabled = true; btn.textContent = "Submitting…"; statusNote.textContent = "Submitting…";
       try {
-        const response = await fetch(`${BETA_BACKEND.url}/rest/v1/beta_requests`, {
+        const r = await fetch(`${BETA_BACKEND.url}/rest/v1/beta_requests`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": BETA_BACKEND.key,
-            "Authorization": `Bearer ${BETA_BACKEND.key}`,
-            "Prefer": "return=minimal"
-          },
+          headers: { "Content-Type": "application/json", "apikey": BETA_BACKEND.key, "Authorization": `Bearer ${BETA_BACKEND.key}`, "Prefer": "return=minimal" },
           body: JSON.stringify(payload)
         });
-
-        if (!response.ok) {
-          throw new Error("submit_failed");
-        }
-
-        form.reset();
-        statusNote.textContent = "Beta request submitted. We'll review it and follow up from pilots@ditmsecurity.com.";
-      } catch (error) {
-        statusNote.textContent = "Could not submit the request right now. Email pilots@ditmsecurity.com with the same details.";
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Request Beta Access";
-      }
+        if (!r.ok) throw new Error();
+        e.target.reset();
+        statusNote.textContent = "Beta request submitted. We'll follow up from pilots@ditmsecurity.com.";
+      } catch { statusNote.textContent = "Could not submit. Email pilots@ditmsecurity.com directly."; }
+      finally { btn.disabled = false; btn.textContent = "Request Beta Access"; }
     });
 
-    feedbackForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const email = document.getElementById("feedbackEmail").value.trim();
-      const company = document.getElementById("feedbackCompany").value.trim();
-      const topic = document.getElementById("feedbackTopic").value.trim();
-      const siemRequest = document.getElementById("feedbackSiemRequest").value.trim();
-      const message = document.getElementById("feedbackMessage").value.trim();
-
-      if (!email || !topic || !message) {
-        feedbackStatusNote.textContent = "Work email, topic, and message are required.";
-        return;
-      }
-
-      const submitButton = feedbackForm.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.textContent = "Submitting...";
-      feedbackStatusNote.textContent = "Submitting feedback...";
-
+    document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const statusNote = document.getElementById("feedbackStatusNote");
+      const btn = e.target.querySelector('button[type="submit"]');
       const payload = {
-        email,
-        company: company || null,
-        topic,
-        siem_request: siemRequest || null,
-        message,
+        email: document.getElementById("feedbackEmail").value.trim(),
+        company: document.getElementById("feedbackCompany").value.trim() || null,
+        topic: document.getElementById("feedbackTopic").value.trim(),
+        siem_request: document.getElementById("feedbackSiemRequest").value.trim() || null,
+        message: document.getElementById("feedbackMessage").value.trim(),
         source_path: "/beta/"
       };
-
+      if (!payload.email || !payload.topic || !payload.message) { statusNote.textContent = "Email, topic, and message are required."; return; }
+      btn.disabled = true; btn.textContent = "Submitting…"; statusNote.textContent = "Submitting…";
       try {
-        const response = await fetch(`${BETA_BACKEND.url}/rest/v1/contact_feedback`, {
+        const r = await fetch(`${BETA_BACKEND.url}/rest/v1/contact_feedback`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "apikey": BETA_BACKEND.key,
-            "Authorization": `Bearer ${BETA_BACKEND.key}`,
-            "Prefer": "return=minimal"
-          },
+          headers: { "Content-Type": "application/json", "apikey": BETA_BACKEND.key, "Authorization": `Bearer ${BETA_BACKEND.key}`, "Prefer": "return=minimal" },
           body: JSON.stringify(payload)
         });
-
-        if (!response.ok) {
-          throw new Error("submit_failed");
-        }
-
-        feedbackForm.reset();
-        feedbackStatusNote.textContent = "Feedback submitted. We'll review it and follow up if needed.";
-      } catch (error) {
-        feedbackStatusNote.textContent = "Could not submit feedback right now. Email pilots@ditmsecurity.com with the same details.";
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Send Feedback";
-      }
+        if (!r.ok) throw new Error();
+        e.target.reset();
+        statusNote.textContent = "Feedback submitted. We'll review and follow up if needed.";
+      } catch { statusNote.textContent = "Could not submit. Email pilots@ditmsecurity.com directly."; }
+      finally { btn.disabled = false; btn.textContent = "Send Message"; }
     });
   </script>
 </body>
